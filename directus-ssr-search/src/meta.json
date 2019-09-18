@@ -1,0 +1,43 @@
+{
+  "name": "SSR Placename Search",
+  "version": "1.0.0",
+  "icon": "business",
+  "types": ["string"],
+  "recommended": {
+    "length": 200
+  },
+  "options": {
+    "placeholder": {
+      "name": "$t:placeholder",
+      "comment": "$t:placeholder_comment",
+      "interface": "text-input",
+      "length": 200
+    },
+    "width": {
+      "name": "$t:width",
+      "comment": "$t:width_comment",
+      "interface": "dropdown",
+      "default": "auto",
+      "options": {
+        "choices": {
+          "auto": "$t:auto",
+          "small": "$t:small",
+          "medium": "$t:medium",
+          "large": "$t:large"
+        }
+      }
+    }
+  },
+  "translation": {
+    "en-US": {
+      "placeholder": "Search for placename",
+      "placeholder_comment": "Use the place name to attach the point of interest to a location",      
+      "width": "Width of the field",
+      "width_comment": "The width of the input in the user interface",
+      "auto":"Auto",
+      "small":"Small",
+      "medium":"Medium",
+      "large":"Large"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+/* Combo box */
+.v-input {
+  width: 100%;
+  max-width: var(--width-medium);
+}
+.ssr-search-container{
+  position: relative;
+}
+
+.placename-list{
+  position: absolute;
+  top: 43px;
+  left: 0px;
+  background: rgba($color: #FFF, $alpha: 0.85);
+  padding: 15px 0;
+  border: 1px solid #DFDFDF;
+}
+
+.placename-list li{
+  padding: 5px 15px;
+  list-style: none;
+  font-size: 16px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.placename-list li:hover{
+  background-color: #dde3e6;  
+}

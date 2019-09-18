@@ -1,0 +1,28 @@
+{
+  "name": "mapbox-draw",
+  "version": "1.0.1",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "build": "directus-extensions build",    
+    "dev": "directus-extensions watch"
+  },
+  "author": "Kristian Hollund <kristian.hollund@olavstoppen.no>",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@directus/extension-toolkit": "^0.0.1",
+    "@mapbox/mapbox-gl-draw": "^1.1.1",
+    "mapbox-gl": "^0.51.0",
+    "proj4": "^2.5.0",
+    "xml2js": "^0.4.17"
+  },
+  "devDependencies": {
+    "@vue/component-compiler-utils": "^2.6.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "cssnano": "^4.1.10",
+    "sass": "^1.17.3",
+    "vue-template-compiler": "^2.6.10"
+  }
+}

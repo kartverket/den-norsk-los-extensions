@@ -1,0 +1,905 @@
+{
+  "version": 8,
+  "sources": {
+    "vt": {
+      "type": "vector",
+      "tiles": [ "https://s3-eu-west-1.amazonaws.com/maplytic-blob-public/85d855bc-7151-4d92-9afe-feb1b5c9059f/tile/_dnlvt/{z}/{x}/{y}.mvt" ]
+    }
+  },
+  "sprite": "https://cdn.maplytic.no/kartverket.maplytic.no/dnl/sprite/s52",
+  "glyphs": "https://cdn.maplytic.no/halset.maplytic.no/glyphs/{fontstack}/{range}.pbf",
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "rgb(244,239,225)"
+      }
+    },
+    {
+      "id": "landcover_snow",
+      "type": "fill",
+      "source": "vt",
+      "source-layer": "SnøIsbre",
+      "paint": {
+        "fill-color": "#f4f8ff"
+      }
+    },
+    {
+      "id": "landcover_scrub",
+      "type": "fill",
+      "source": "vt",
+      "source-layer": "ÅpentOmråde",
+      "paint": {
+        "fill-color": "#dfe5c8",
+        "fill-opacity": {
+          "stops": [
+            [
+              12,
+              1
+            ],
+            [
+              13,
+              0.8
+            ],
+            [
+              16,
+              0.2
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "landcover_wood",
+      "type": "fill",
+      "source": "vt",
+      "source-layer": "Skog",
+      "paint": {
+        "fill-color": "#cee2bd",
+        "fill-opacity": {
+          "stops": [
+            [
+              12,
+              1
+            ],
+            [
+              13,
+              0.8
+            ],
+            [
+              16,
+              0.2
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "landuse_wood",
+      "type": "fill",
+      "source": "vt",
+      "source-layer": "Skog",
+      "paint": {
+        "fill-color": "#cee2bd"
+      }
+    },
+    {
+      "id": "landuse_snow",
+      "type": "fill",
+      "source": "vt",
+      "source-layer": "SnøIsbre",
+      "paint": {
+        "fill-color": "#f4f8ff"
+      }
+    },
+    {
+      "id": "landuse_cemetery",
+      "type": "fill",
+      "source": "vt",
+      "source-layer": "Gravplass",
+      "paint": {
+        "fill-color": "#edf4ed"
+      }
+    },
+    {
+      "id": "ElvBekk-line",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "ElvBekk",
+      "filter": [
+        "==",
+        "$type",
+        "LineString"
+      ],
+      "layout": {
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-color": "#87abaf",
+        "line-width": {
+          "stops": [
+            [
+              12,
+              0.25
+            ],
+            [
+              13,
+              0.5
+            ],
+            [
+              15,
+              1.5
+            ],
+            [
+              17,
+              2
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "ElvBekk-fill",
+      "type": "fill",
+      "source": "vt",
+      "source-layer": "ElvBekk",
+      "filter": [
+        "!=",
+        "$type",
+        "LineString"
+      ],
+      "paint": {
+        "fill-color": "#cdd"
+      }
+    },
+    {
+      "id": "ElvBekkKant",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "ElvBekkKant",
+      "paint": {
+        "line-color": "#a2bdc0"
+      }
+    },
+    {
+      "id": "water",
+      "type": "fill",
+      "source": "vt",
+      "source-layer": "Innsjø",
+      "paint": {
+        "fill-color": "#cdd",
+        "fill-outline-color": "#a2bdc0"
+      }
+    },
+    {
+      "id": "water_hav",
+      "type": "fill",
+      "source": "vt",
+      "source-layer": "Havflate",
+      "paint": {
+        "fill-color": "#cdd"
+      }
+    },
+    {
+      "id": "myr",
+      "type": "fill",
+      "source": "vt",
+      "source-layer": "Myr",
+      "paint": {
+        "fill-color": "#cdd",
+        "fill-opacity": 0.7
+      }
+    },
+    {
+      "id": "aeroway_fill",
+      "type": "fill",
+      "source": "vt",
+      "source-layer": "Rullebane",
+      "paint": {
+        "fill-color": "#ddd"
+      }
+    },
+    {
+      "id": "Traktorveg",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "Traktorveg",
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-color": "#777",
+        "line-opacity": 0.8,
+        "line-width": 1.5
+      }
+    },
+    {
+      "id": "VegSenterlinje",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "VegSenterlinje",
+      "maxzoom": 13,
+      "filter": [
+        "!=",
+        "MEDIUM",
+        "U"
+      ],
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-color": "#AAA",
+        "line-width": {
+          "stops": [
+              [ 8, 1.5 ],
+              [ 11, 1.5 ],
+              [ 12, 1.8 ],
+              [ 13, 2 ],
+              [ 14, 2.2 ],
+              [ 15, 4.5 ],
+              [ 16, 6 ],
+              [ 17, 7 ]
+          ]
+        },
+        "line-opacity": {
+          "stops": [
+            [
+              8,
+              0
+            ],
+            [
+              9,
+              1
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "VegSenterlinje-Tunell",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "VegSenterlinje",
+      "maxzoom": 13,
+      "filter": [
+        "==",
+        "MEDIUM",
+        "U"
+      ],
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-color": "#AAA",
+        "line-width": {
+          "stops": [
+              [ 8, 1.5 ],
+              [ 11, 1.5 ],
+              [ 12, 1.8 ],
+              [ 13, 2 ],
+              [ 14, 2.2 ],
+              [ 15, 4.5 ],
+              [ 16, 6 ],
+              [ 17, 7 ]
+          ]
+        },
+        "line-dasharray": [
+          6,
+          6
+        ],
+        "line-opacity": 0.6
+      }
+    },
+    {
+      "id": "vbase-VegSenterlinje",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "VegSenterlinje",
+      "minzoom": 13,
+      "filter": [
+        "!=",
+        "MEDIUM",
+        "U"
+      ],
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-color": "#AAA",
+        "line-width": {
+          "stops": [
+              [ 8, 1.5 ],
+              [ 11, 1.5 ],
+              [ 12, 1.8 ],
+              [ 13, 2 ],
+              [ 14, 2.2 ],
+              [ 15, 4.5 ],
+              [ 16, 6 ],
+              [ 17, 7 ]
+          ]
+        },
+        "line-opacity": {
+          "stops": [
+            [
+              8,
+              0
+            ],
+            [
+              9,
+              1
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "vbase-Kjørebane",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "Kjørebane",
+      "minzoom": 13,
+      "filter": [
+        "!=",
+        "MEDIUM",
+        "U"
+      ],
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-color": "#AAA",
+        "line-width": {
+          "stops": [
+              [ 8, 1.5 ],
+              [ 11, 1.5 ],
+              [ 12, 1.8 ],
+              [ 13, 2 ],
+              [ 14, 2.2 ],
+              [ 15, 4.5 ],
+              [ 16, 6 ],
+              [ 17, 7 ]
+          ]
+        },
+        "line-opacity": {
+          "stops": [
+            [
+              8,
+              0
+            ],
+            [
+              9,
+              1
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "vbase-VegSenterlinje-Tunell",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "VegSenterlinje",
+      "minzoom": 13,
+      "filter": [
+        "==",
+        "MEDIUM",
+        "U"
+      ],
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-color": "#AAA",
+        "line-width": {
+          "stops": [
+              [ 8, 1.5 ],
+              [ 11, 1.5 ],
+              [ 12, 1.8 ],
+              [ 13, 2 ],
+              [ 14, 2.2 ],
+              [ 15, 4.5 ],
+              [ 16, 6 ],
+              [ 17, 7 ]
+          ]
+        },
+        "line-dasharray": [
+          6,
+          6
+        ],
+        "line-opacity": 0.6
+      }
+    },
+    {
+      "id": "vbase-Kjørebane-Tunell",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "Kjørebane",
+      "minzoom": 13,
+      "filter": [
+        "==",
+        "MEDIUM",
+        "U"
+      ],
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-color": "#AAA",
+        "line-width": {
+          "stops": [
+              [ 8, 1.5 ],
+              [ 11, 1.5 ],
+              [ 12, 1.8 ],
+              [ 13, 2 ],
+              [ 14, 2.2 ],
+              [ 15, 4.5 ],
+              [ 16, 6 ],
+              [ 17, 7 ]
+          ]
+        },
+        "line-dasharray": [
+          6,
+          6
+        ],
+        "line-opacity": 0.6
+      }
+    },
+    {
+      "id": "vbase-VegSenterlinje-label",
+      "type": "symbol",
+      "source": "vt",
+      "source-layer": "VegSenterlinje",
+      "minzoom": 13,
+      "filter": [
+        "!=",
+        "MEDIUM",
+        "U"
+      ],
+      "layout": {
+        "text-field": "{GATENAVN}",
+        "text-padding": 2,
+        "text-max-angle": 28.65,
+        "symbol-placement": "line",
+        "text-size": {
+          "stops": [
+            [
+              12,
+              11
+            ],
+            [
+              13,
+              12
+            ],
+            [
+              15,
+              14
+            ],
+            [
+              17,
+              16
+            ]
+          ]
+        }
+      },
+      "paint": {
+        "text-color": "#111",
+        "text-halo-color": "rgb(244,239,225)",
+        "text-halo-width": 1.5,
+        "text-halo-blur": 1.5
+      },
+      "paint.night": {
+        "text-color": "#fff",
+        "text-halo-color": "rgba(1,69,89,0.8)"
+      }
+    },
+    {
+      "id": "sosi-hoyde",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "Høydekurve",
+      "paint": {
+        "line-color": "#222",
+        "line-width": 0.5,
+        "line-opacity": 0.5
+      }
+    },
+    {
+      "id": "contour_label",
+      "type": "symbol",
+      "source": "vt",
+      "source-layer": "Høydekurve",
+      "layout": {
+        "text-field": "{HØYDE}",
+        "text-max-angle": 28.65,
+        "symbol-placement": "line",
+        "text-size": 10
+      },
+      "paint": {
+        "text-color": "#666",
+        "text-halo-color": "rgb(244,239,225)",
+        "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "Terrengpunkt",
+      "type": "symbol",
+      "source": "vt",
+      "source-layer": "Terrengpunkt",
+      "minzoom": 12,
+      "layout": {
+        "text-field": "{HØYDE}",
+        "text-size": 12
+      },
+      "paint": {
+        "text-color": "#666",
+        "text-halo-color": "rgb(244,239,225)",
+        "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "rørgate",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "Rørgate",
+      "paint": {
+        "line-color": "#000",
+        "line-width": 0.8,
+        "line-opacity": 0.5
+      }
+    },
+    {
+      "id": "dam",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "Dam",
+      "paint": {
+        "line-color": "#000",
+        "line-width": 2,
+        "line-opacity": 0.5
+      }
+    },
+    {
+      "id": "sti",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "Sti",
+      "paint": {
+        "line-color": "#000",
+        "line-width": 1,
+        "line-dasharray": [
+          6,
+          6
+        ]
+      }
+    },
+    {
+      "id": "DEPCNT",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "DEPCNT",
+      "paint": {
+        "line-color": "#22d",
+        "line-width": 0.5,
+        "line-opacity": 0.5
+      }
+    },
+    {
+      "id": "COALNE",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "COALNE",
+      "paint": {
+        "line-color": "#555",
+        "line-width": 1,
+        "line-opacity": 1
+      }
+    },
+    {
+      "id": "SLCONS",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "SLCONS",
+      "paint": {
+        "line-color": "#555",
+        "line-width": 1,
+        "line-opacity": 1
+      }
+    },
+    {
+      "id": "PIPSOL",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "PIPSOL",
+      "filter": [
+        "==",
+        "$type",
+        "LineString"
+      ],
+      "paint": {
+        "line-color": "#ff0000",
+        "line-dasharray": [
+          6,
+          6
+        ],
+        "line-width": {
+          "stops": [
+              [ 12, 0.8 ],
+              [ 17, 2 ]
+          ]
+        },
+        "line-opacity": 0.6
+      }
+    },
+    {
+      "id": "CBLSUB",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "CBLSUB",
+      "filter": [
+        "==",
+        "$type",
+        "LineString"
+      ],
+      "paint": {
+        "line-color": "#ff0000",
+        "line-dasharray": [
+          6,
+          6
+        ],
+        "line-width": {
+          "stops": [
+              [ 12, 0.8 ],
+              [ 17, 2 ]
+          ]
+        },
+        "line-opacity": 0.6
+      }
+    },
+    {
+      "id": "FERYRT",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "FERYRT",
+      "filter": [
+        "==",
+        "$type",
+        "LineString"
+      ],
+      "paint": {
+        "line-color": "#ff0000",
+        "line-dasharray": [
+          6,
+          6
+        ],
+        "line-width": {
+          "stops": [
+              [ 12, 0.8 ],
+              [ 17, 2 ]
+          ]
+        },
+        "line-opacity": 0.6
+      }
+    },
+    {
+      "id": "DEPCNT_VALDCO",
+      "type": "symbol",
+      "source": "vt",
+      "source-layer": "DEPCNT",
+      "minzoom": 12,
+      "layout": {
+        "text-field": "{VALDCO_TXT}",
+        "text-max-angle": 28.65,
+        "symbol-placement": "line",
+        "text-size": 10
+      },
+      "paint": {
+        "text-color": "#22d",
+        "text-halo-color": "rgb(244,239,225)",
+        "text-halo-width": 1.5
+      },
+      "paint.night": {
+        "text-color": "#ffff80",
+        "text-halo-color": "#017293",
+        "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "SOUNDG",
+      "type": "symbol",
+      "source": "vt",
+      "source-layer": "SOUNDG",
+      "minzoom": 12,
+      "layout": {
+        "text-field": "{VALSOU_TXT}",
+        "text-size": 12
+      },
+      "paint": {
+        "text-color": "#22d",
+        "text-halo-color": "rgb(244,239,225)",
+        "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "UWTROC",
+      "type": "symbol",
+      "source": "vt",
+      "source-layer": "UWTROC",
+      "minzoom": 12,
+      "layout": {
+        "text-field": "{VALSOU_TXT}",
+        "text-size": 12
+      },
+      "paint": {
+        "text-color": "#22d",
+        "text-halo-color": "rgb(244,239,225)",
+        "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "LIGHTS_LEG",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "LIGHTS_LEG",
+      "paint": {
+        "line-color": "#000000",
+        "line-width": 0.2,
+        "line-opacity": 1
+      }
+    },
+    {
+      "id": "LIGHTS_ARC_BG",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "LIGHTS_ARC",
+      "paint": {
+        "line-color": "#000000",
+        "line-width": 5,
+        "line-opacity": 0.5
+      }
+    },
+    {
+      "id": "LIGHTS_ARC_1",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "LIGHTS_ARC",
+      "filter": [
+        "==",
+        "COLOUR",
+        "1"
+      ],
+      "paint": {
+        "line-color": "#e4df35",
+        "line-width": 3,
+        "line-opacity": 1
+      }
+    },
+    {
+      "id": "LIGHTS_ARC_3",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "LIGHTS_ARC",
+      "filter": [
+        "==",
+        "COLOUR",
+        "3"
+      ],
+      "paint": {
+        "line-color": "#ea5470",
+        "line-width": 3,
+        "line-opacity": 1
+      }
+    },
+    {
+      "id": "LIGHTS_ARC_4",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "LIGHTS_ARC",
+      "filter": [
+        "==",
+        "COLOUR",
+        "4"
+      ],
+      "paint": {
+        "line-color": "#61e637",
+        "line-width": 3,
+        "line-opacity": 1
+      }
+    },
+    {
+      "id": "S52_SYMBOL",
+      "type": "symbol",
+      "source": "vt",
+      "source-layer": "S52_SYMBOL",
+      "filter": [
+        "all",
+        ["none", [ ">=", "ROTATE", 0 ], [ "<=", "ROTATE", 360 ]],
+        [
+          "!in",
+          "OBCL",
+          "UWTROC",
+          "SOUNDG",
+          "BUAARE",
+          "LNDARE",
+          "LNDRGN"
+        ]
+      ],
+      "layout": {
+        "icon-image": "{SYMBOL}",
+        "icon-allow-overlap": true
+      }
+    },
+    {
+      "id": "S52_SYMBOL_135",
+      "type": "symbol",
+      "source": "vt",
+      "source-layer": "S52_SYMBOL",
+      "filter": [
+        "all",
+        [
+          "==",
+          "ROTATE",
+          135
+        ],
+        [
+          "!in",
+          "OBCL",
+          "UWTROC",
+          "SOUNDG",
+          "BUAARE",
+          "LNDARE",
+          "LNDRGN"
+        ]
+      ],
+      "layout": {
+        "icon-image": "{SYMBOL}",
+        "icon-allow-overlap": true,
+        "icon-rotate": 135
+      }
+    },
+    {
+      "id": "ledning",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "Ledning",
+      "paint": {
+        "line-color": "#000",
+        "line-width": 0.5,
+        "line-opacity": 0.5
+      }
+    },
+    {
+      "id": "luftledning",
+      "type": "line",
+      "source": "vt",
+      "source-layer": "LuftledningLH",
+      "paint": {
+        "line-color": "#000",
+        "line-width": 0.5,
+        "line-opacity": 0.5
+      }
+    },
+    {
+      "id": "skrivemåte",
+      "type": "symbol",
+      "source": "vt",
+      "source-layer": "Skrivemåte",
+      "layout": {
+        "text-field": "{SNAVN}",
+        "text-size": 10
+      },
+      "paint": {
+        "text-color": "#000",
+        "text-halo-color": "rgb(244,239,225)",
+        "text-halo-width": 1.5
+      }
+    }
+  ]
+}
