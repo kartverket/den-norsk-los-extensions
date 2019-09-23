@@ -4,14 +4,16 @@
   "description": "",
   "main": "",
   "scripts": {
-    "build": "directus-extensions build",    
+    "build": "directus-extensions build",
+    "extension_move": "sh postbuild.sh",
     "dev": "directus-extensions watch"
   },
   "author": "Kristian Hollund <kristian.hollund@olavstoppen.no>",
   "license": "GPL-3.0",
   "dependencies": {
-    "@directus/extension-toolkit": "^0.0.1",
+    "@directus/extension-toolkit": "^0.1.0",
     "@mapbox/mapbox-gl-draw": "^1.1.1",
+    "@mapbox/geojsonhint": "^3.0.0",
     "mapbox-gl": "^0.51.0",
     "proj4": "^2.5.0",
     "xml2js": "^0.4.17"

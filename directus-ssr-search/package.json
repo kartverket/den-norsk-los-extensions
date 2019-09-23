@@ -5,14 +5,14 @@
   "main": "",
   "scripts": {
     "build": "directus-extensions build",
-    "postbuild": "./postbuild.sh",
+    "extension_move": "sh postbuild.sh",
     "dev": "directus-extensions watch"
   },
   "keywords": [],
   "author": "Kristian Hollund <kristian.hollund@olavstoppen.no>",
   "license": "GPL-3.0",
   "dependencies": {
-    "@directus/extension-toolkit": "^0.0.1",
+    "@directus/extension-toolkit": "^0.1.0",
     "xml2js": "^0.4.17"
   },
   "devDependencies": {
