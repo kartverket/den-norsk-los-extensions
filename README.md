@@ -8,7 +8,7 @@ Finished extensions are compiled VueJS files, building on this: https://github.c
 They can be developed and tested by building them directly into a local Directus instance.
 
 ### Development setup
-Create the folders for the plugins in directus/public/extensions/custom/interfaces
+Create the folders for the plugins in your local directus/public/extensions/custom/interfaces
 
 Copy the compiled code. If you want to continuously test it:
 
