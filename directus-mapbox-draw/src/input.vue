@@ -317,33 +317,34 @@ export default {
       }
     },
     updateValueSSR(valueSSR){
-        const ssrLat = parseFloat(valueSSR.split("(")[1].split(",")[0]);
-                
-        const ssrLng = parseFloat(
-            valueSSR
-            .split("(")[1]
-            .split(",")[1]
-            .replace(",", "")
-            .replace(")", "")
-        );
+      console.log('valueSSR: ',valueSSR);
+      const stringArray = valueSSR.split(" - ");
+      let unformattedLat = stringArray[2].split(", ")[0];
+      let unformattedLng = stringArray[2].split(", ")[1];
+      console.log('unformattedLat',unformattedLat,'unformattedLng',unformattedLng);
 
-        console.log('TODO: Oppdater punktet også hvis det eksisterer,lukk modal etterpå');
-        const feature = {
-          id: this.storedFeatures[0],
-          type: 'Feature',
-          properties: {},
-          geometry: { type: 'Point', coordinates: [ssrLng, ssrLat] }
-        };
-        
-        this.draw.add(feature);
-        this.map.flyTo({
-            center: [ssrLng,ssrLat]
-        });
+      const ssrLat = parseFloat(unformattedLat);
+      const ssrLng = parseFloat(unformattedLng);
 
-        this.updateValue(this.draw.getAll());
+      console.log('ssrLat: ',ssrLat,' ssrLng: ',ssrLng);
 
-        // Clear placenames
-        this.placenames = [];
+      console.log('TODO: Oppdater punktet også hvis det eksisterer,lukk modal etterpå');
+      const feature = {
+        id: this.storedFeatures[0],
+        type: 'Feature',
+        properties: {},
+        geometry: { type: 'Point', coordinates: [ssrLng, ssrLat] }
+      };
+      
+      this.draw.add(feature);
+      this.map.flyTo({
+          center: [ssrLng,ssrLat]
+      });
+
+      this.updateValue(this.draw.getAll());
+
+      // Clear placenames
+      this.placenames = [];
     },
 
     updateValue(rawValue) {
