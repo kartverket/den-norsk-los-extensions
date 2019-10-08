@@ -1,611 +1,1099 @@
 {
   "version": 8,
+  "name": "colour",
   "sources": {
-    "vt": {
+    "s57": {
       "type": "vector",
-      "tiles": [ "https://s3-eu-west-1.amazonaws.com/maplytic-blob-public/85d855bc-7151-4d92-9afe-feb1b5c9059f/tile/_dnlvt/{z}/{x}/{y}.mvt" ]
+      "url": "https://primar.ecc.no/primar/vectortile_ip/halsett/cells.json"
+    },
+
+    "dnl": {
+      "type": "vector",
+      "tiles": ["https://cache.kartverket.no/dnl/{z}/{x}/{y}.mvt"]
+    },
+
+    "nrl": {
+      "type": "vector",
+      "tiles": [
+        "https://wms.geonorge.no/skwms1/wmstest.nrl_vt?mode=tile&tilemode=gmap&tile={x}+{y}+{z}&layers=all&map.imagetype=mvt"
+      ]
+    },
+    "adm_enheter": {
+      "type": "vector",
+      "tiles": [
+        "https://wms.geonorge.no/skwms1/wmstest.adm_enheter2_vt?mode=tile&tilemode=gmap&tile={x}+{y}+{z}&layers=all&map.imagetype=mvt"
+      ]
     }
   },
-  "sprite": "https://cdn.maplytic.no/kartverket.maplytic.no/dnl/sprite/s52",
-  "glyphs": "https://cdn.maplytic.no/halset.maplytic.no/glyphs/{fontstack}/{range}.pbf",
+  "sprite": "https://dnltest.kartverket.no/s52",
+  "glyphs": "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
   "layers": [
     {
-      "id": "background",
+      "id": "background_land",
       "type": "background",
+      "minzoom": 11,
       "paint": {
-        "background-color": "rgb(244,239,225)"
+        "background-color": "#ffefc6"
       }
     },
     {
-      "id": "landcover_snow",
+      "id": "background_sea",
+      "type": "background",
+      "maxzoom": 11,
+      "paint": {
+        "background-color": "#e7f6fd"
+      }
+    },
+    {
+      "id": "N2000Arealdekkeflate",
       "type": "fill",
-      "source": "vt",
-      "source-layer": "SnøIsbre",
+      "maxzoom": 8,
+      "source": "dnl",
+      "source-layer": "N2000Arealdekkeflate",
       "paint": {
-        "fill-color": "#f4f8ff"
+        "fill-color": "#ffefc6"
       }
     },
     {
-      "id": "landcover_scrub",
+      "id": "N500Arealdekkeflate",
       "type": "fill",
-      "source": "vt",
-      "source-layer": "ÅpentOmråde",
+      "minzoom": 8,
+      "maxzoom": 11,
+      "source": "dnl",
+      "source-layer": "N500Arealdekkeflate",
       "paint": {
-        "fill-color": "#dfe5c8",
-        "fill-opacity": {
-          "stops": [
-            [
-              12,
-              1
-            ],
-            [
-              13,
-              0.8
-            ],
-            [
-              16,
-              0.2
-            ]
-          ]
-        }
+        "fill-color": "#ffefc6"
       }
     },
     {
-      "id": "landcover_wood",
+      "id": "Vannflate2000",
       "type": "fill",
-      "source": "vt",
-      "source-layer": "Skog",
-      "paint": {
-        "fill-color": "#cee2bd",
-        "fill-opacity": {
-          "stops": [
-            [
-              12,
-              1
-            ],
-            [
-              13,
-              0.8
-            ],
-            [
-              16,
-              0.2
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "id": "landuse_wood",
-      "type": "fill",
-      "source": "vt",
-      "source-layer": "Skog",
-      "paint": {
-        "fill-color": "#cee2bd"
-      }
-    },
-    {
-      "id": "landuse_snow",
-      "type": "fill",
-      "source": "vt",
-      "source-layer": "SnøIsbre",
-      "paint": {
-        "fill-color": "#f4f8ff"
-      }
-    },
-    {
-      "id": "landuse_cemetery",
-      "type": "fill",
-      "source": "vt",
-      "source-layer": "Gravplass",
-      "paint": {
-        "fill-color": "#edf4ed"
-      }
-    },
-    {
-      "id": "ElvBekk-line",
-      "type": "line",
-      "source": "vt",
-      "source-layer": "ElvBekk",
+      "source": "dnl",
+      "source-layer": "N2000Vannflate",
+      "maxzoom": 8,
       "filter": [
-        "==",
-        "$type",
-        "LineString"
+        "match",
+        ["get", "objtype"],
+        ["", "Innsjø", "ElvBekk"],
+        true,
+        false
       ],
-      "layout": {
-        "line-cap": "round"
-      },
       "paint": {
-        "line-color": "#87abaf",
+        "fill-color": "#e7f6fd"
+      }
+    },
+    {
+      "id": "Vannflate500",
+      "type": "fill",
+      "source": "dnl",
+      "source-layer": "N500Vannflate",
+      "minzoom": 8,
+      "maxzoom": 11,
+      "filter": [
+        "match",
+        ["get", "objtype"],
+        ["", "Innsjø", "ElvBekk"],
+        true,
+        false
+      ],
+      "paint": {
+        "fill-color": "#e7f6fd"
+      }
+    },
+    {
+      "id": "fjellskygge2000",
+      "type": "raster",
+      "maxzoom": 11,
+      "source": "fjellskygge2",
+      "raster-opacity": 0.8
+    },
+    {
+      "id": "Hav2000",
+      "type": "fill",
+      "source": "dnl",
+      "source-layer": "N2000Vannflate",
+      "maxzoom": 8,
+      "filter": ["match", ["get", "objtype"], ["", "Havflate"], true, false],
+      "paint": {
+        "fill-color": "#e7f6fd"
+      }
+    },
+
+    {
+      "id": "Hav500",
+      "type": "fill",
+      "source": "dnl",
+      "source-layer": "N500Vannflate",
+      "minzoom": 8,
+      "maxzoom": 10,
+      "filter": ["match", ["get", "objtype"], ["", "Havflate"], true, false],
+      "paint": {
+        "fill-color": "#e7f6fd"
+      }
+    },
+    {
+      "interactive": true,
+      "id": "N2000Elver",
+      "type": "line",
+      "minzoom": 6,
+      "maxzoom": 8,
+      "source": "dnl",
+      "source-layer": "N2000Elver",
+      "paint": {
+        "line-color": "#e7f6fd",
         "line-width": {
-          "stops": [
-            [
-              12,
-              0.25
-            ],
-            [
-              13,
-              0.5
-            ],
-            [
-              15,
-              1.5
-            ],
-            [
-              17,
-              2
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "id": "ElvBekk-fill",
-      "type": "fill",
-      "source": "vt",
-      "source-layer": "ElvBekk",
-      "filter": [
-        "!=",
-        "$type",
-        "LineString"
-      ],
-      "paint": {
-        "fill-color": "#cdd"
-      }
-    },
-    {
-      "id": "ElvBekkKant",
-      "type": "line",
-      "source": "vt",
-      "source-layer": "ElvBekkKant",
-      "paint": {
-        "line-color": "#a2bdc0"
-      }
-    },
-    {
-      "id": "water",
-      "type": "fill",
-      "source": "vt",
-      "source-layer": "Innsjø",
-      "paint": {
-        "fill-color": "#cdd",
-        "fill-outline-color": "#a2bdc0"
-      }
-    },
-    {
-      "id": "water_hav",
-      "type": "fill",
-      "source": "vt",
-      "source-layer": "Havflate",
-      "paint": {
-        "fill-color": "#cdd"
-      }
-    },
-    {
-      "id": "myr",
-      "type": "fill",
-      "source": "vt",
-      "source-layer": "Myr",
-      "paint": {
-        "fill-color": "#cdd",
-        "fill-opacity": 0.7
-      }
-    },
-    {
-      "id": "aeroway_fill",
-      "type": "fill",
-      "source": "vt",
-      "source-layer": "Rullebane",
-      "paint": {
-        "fill-color": "#ddd"
-      }
-    },
-    {
-      "id": "Traktorveg",
-      "type": "line",
-      "source": "vt",
-      "source-layer": "Traktorveg",
-      "layout": {
-        "line-join": "round",
-        "line-cap": "round"
-      },
-      "paint": {
-        "line-color": "#777",
-        "line-opacity": 0.8,
-        "line-width": 1.5
-      }
-    },
-    {
-      "id": "VegSenterlinje",
-      "type": "line",
-      "source": "vt",
-      "source-layer": "VegSenterlinje",
-      "maxzoom": 13,
-      "filter": [
-        "!=",
-        "MEDIUM",
-        "U"
-      ],
-      "layout": {
-        "line-join": "round",
-        "line-cap": "round"
-      },
-      "paint": {
-        "line-color": "#AAA",
-        "line-width": {
-          "stops": [
-              [ 8, 1.5 ],
-              [ 11, 1.5 ],
-              [ 12, 1.8 ],
-              [ 13, 2 ],
-              [ 14, 2.2 ],
-              [ 15, 4.5 ],
-              [ 16, 6 ],
-              [ 17, 7 ]
-          ]
+          "base": 1,
+          "stops": [[8, 2], [12, 4]]
         },
-        "line-opacity": {
-          "stops": [
-            [
-              8,
-              0
-            ],
-            [
-              9,
-              1
-            ]
-          ]
-        }
+        "line-blur": 1.5
       }
     },
     {
-      "id": "VegSenterlinje-Tunell",
+      "interactive": true,
+      "id": "N500Elver",
       "type": "line",
-      "source": "vt",
-      "source-layer": "VegSenterlinje",
-      "maxzoom": 13,
-      "filter": [
-        "==",
-        "MEDIUM",
-        "U"
-      ],
-      "layout": {
-        "line-join": "round",
-        "line-cap": "round"
-      },
+      "minzoom": 8,
+      "maxzoom": 11,
+      "source": "dnl",
+      "source-layer": "N500Elver",
       "paint": {
-        "line-color": "#AAA",
+        "line-color": "#e7f6fd",
         "line-width": {
-          "stops": [
-              [ 8, 1.5 ],
-              [ 11, 1.5 ],
-              [ 12, 1.8 ],
-              [ 13, 2 ],
-              [ 14, 2.2 ],
-              [ 15, 4.5 ],
-              [ 16, 6 ],
-              [ 17, 7 ]
-          ]
+          "base": 1,
+          "stops": [[8, 1.5], [12, 5]]
         },
-        "line-dasharray": [
-          6,
-          6
-        ],
-        "line-opacity": 0.6
+        "line-blur": 1.5
       }
     },
+
     {
-      "id": "vbase-VegSenterlinje",
+      "interactive": true,
+      "id": "N500Hoydekurver",
+      "minzoom": 10,
+      "maxzoom": 11,
       "type": "line",
-      "source": "vt",
-      "source-layer": "VegSenterlinje",
-      "minzoom": 13,
-      "filter": [
-        "!=",
-        "MEDIUM",
-        "U"
-      ],
-      "layout": {
-        "line-join": "round",
-        "line-cap": "round"
-      },
+      "source": "dnl",
+      "source-layer": "N500Hoydekurver",
       "paint": {
-        "line-color": "#AAA",
-        "line-width": {
-          "stops": [
-              [ 8, 1.5 ],
-              [ 11, 1.5 ],
-              [ 12, 1.8 ],
-              [ 13, 2 ],
-              [ 14, 2.2 ],
-              [ 15, 4.5 ],
-              [ 16, 6 ],
-              [ 17, 7 ]
-          ]
-        },
-        "line-opacity": {
-          "stops": [
-            [
-              8,
-              0
-            ],
-            [
-              9,
-              1
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "id": "vbase-Kjørebane",
-      "type": "line",
-      "source": "vt",
-      "source-layer": "Kjørebane",
-      "minzoom": 13,
-      "filter": [
-        "!=",
-        "MEDIUM",
-        "U"
-      ],
-      "layout": {
-        "line-join": "round",
-        "line-cap": "round"
-      },
-      "paint": {
-        "line-color": "#AAA",
-        "line-width": {
-          "stops": [
-              [ 8, 1.5 ],
-              [ 11, 1.5 ],
-              [ 12, 1.8 ],
-              [ 13, 2 ],
-              [ 14, 2.2 ],
-              [ 15, 4.5 ],
-              [ 16, 6 ],
-              [ 17, 7 ]
-          ]
-        },
-        "line-opacity": {
-          "stops": [
-            [
-              8,
-              0
-            ],
-            [
-              9,
-              1
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "id": "vbase-VegSenterlinje-Tunell",
-      "type": "line",
-      "source": "vt",
-      "source-layer": "VegSenterlinje",
-      "minzoom": 13,
-      "filter": [
-        "==",
-        "MEDIUM",
-        "U"
-      ],
-      "layout": {
-        "line-join": "round",
-        "line-cap": "round"
-      },
-      "paint": {
-        "line-color": "#AAA",
-        "line-width": {
-          "stops": [
-              [ 8, 1.5 ],
-              [ 11, 1.5 ],
-              [ 12, 1.8 ],
-              [ 13, 2 ],
-              [ 14, 2.2 ],
-              [ 15, 4.5 ],
-              [ 16, 6 ],
-              [ 17, 7 ]
-          ]
-        },
-        "line-dasharray": [
-          6,
-          6
-        ],
-        "line-opacity": 0.6
-      }
-    },
-    {
-      "id": "vbase-Kjørebane-Tunell",
-      "type": "line",
-      "source": "vt",
-      "source-layer": "Kjørebane",
-      "minzoom": 13,
-      "filter": [
-        "==",
-        "MEDIUM",
-        "U"
-      ],
-      "layout": {
-        "line-join": "round",
-        "line-cap": "round"
-      },
-      "paint": {
-        "line-color": "#AAA",
-        "line-width": {
-          "stops": [
-              [ 8, 1.5 ],
-              [ 11, 1.5 ],
-              [ 12, 1.8 ],
-              [ 13, 2 ],
-              [ 14, 2.2 ],
-              [ 15, 4.5 ],
-              [ 16, 6 ],
-              [ 17, 7 ]
-          ]
-        },
-        "line-dasharray": [
-          6,
-          6
-        ],
-        "line-opacity": 0.6
-      }
-    },
-    {
-      "id": "vbase-VegSenterlinje-label",
-      "type": "symbol",
-      "source": "vt",
-      "source-layer": "VegSenterlinje",
-      "minzoom": 13,
-      "filter": [
-        "!=",
-        "MEDIUM",
-        "U"
-      ],
-      "layout": {
-        "text-field": "{GATENAVN}",
-        "text-padding": 2,
-        "text-max-angle": 28.65,
-        "symbol-placement": "line",
-        "text-size": {
-          "stops": [
-            [
-              12,
-              11
-            ],
-            [
-              13,
-              12
-            ],
-            [
-              15,
-              14
-            ],
-            [
-              17,
-              16
-            ]
-          ]
-        }
-      },
-      "paint": {
-        "text-color": "#111",
-        "text-halo-color": "rgb(244,239,225)",
-        "text-halo-width": 1.5,
-        "text-halo-blur": 1.5
-      },
-      "paint.night": {
-        "text-color": "#fff",
-        "text-halo-color": "rgba(1,69,89,0.8)"
-      }
-    },
-    {
-      "id": "sosi-hoyde",
-      "type": "line",
-      "source": "vt",
-      "source-layer": "Høydekurve",
-      "paint": {
-        "line-color": "#222",
-        "line-width": 0.5,
-        "line-opacity": 0.5
-      }
-    },
-    {
-      "id": "contour_label",
-      "type": "symbol",
-      "source": "vt",
-      "source-layer": "Høydekurve",
-      "layout": {
-        "text-field": "{HØYDE}",
-        "text-max-angle": 28.65,
-        "symbol-placement": "line",
-        "text-size": 10
-      },
-      "paint": {
-        "text-color": "#666",
-        "text-halo-color": "rgb(244,239,225)",
-        "text-halo-width": 1.5
-      }
-    },
-    {
-      "id": "Terrengpunkt",
-      "type": "symbol",
-      "source": "vt",
-      "source-layer": "Terrengpunkt",
-      "minzoom": 12,
-      "layout": {
-        "text-field": "{HØYDE}",
-        "text-size": 12
-      },
-      "paint": {
-        "text-color": "#666",
-        "text-halo-color": "rgb(244,239,225)",
-        "text-halo-width": 1.5
-      }
-    },
-    {
-      "id": "rørgate",
-      "type": "line",
-      "source": "vt",
-      "source-layer": "Rørgate",
-      "paint": {
-        "line-color": "#000",
-        "line-width": 0.8,
-        "line-opacity": 0.5
-      }
-    },
-    {
-      "id": "dam",
-      "type": "line",
-      "source": "vt",
-      "source-layer": "Dam",
-      "paint": {
-        "line-color": "#000",
-        "line-width": 2,
-        "line-opacity": 0.5
-      }
-    },
-    {
-      "id": "sti",
-      "type": "line",
-      "source": "vt",
-      "source-layer": "Sti",
-      "paint": {
-        "line-color": "#000",
         "line-width": 1,
-        "line-dasharray": [
-          6,
-          6
+        "line-color": "rgba(200,133,70,1)",
+        "line-blur": 1.8
+      }
+    },
+
+    {
+      "interactive": true,
+      "id": "dybdelag",
+      "minzoom": 10,
+      "maxzoom": 11,
+      "type": "fill",
+      "source": "dnl",
+      "source-layer": "Dybdelag",
+      "paint": {
+        "fill-color": [
+          "interpolate",
+          ["linear"],
+          ["to-number", ["get", "dybdeverdi_min"]],
+          0,
+          "#8cc7ed",
+          10,
+          "#cce9f2",
+          20,
+          "#e7f6fd",
+          2000,
+          "#e7f6fd"
         ]
       }
     },
     {
-      "id": "DEPCNT",
-      "type": "line",
-      "source": "vt",
-      "source-layer": "DEPCNT",
+      "id": "torrfall",
+      "type": "fill",
+      "source": "dnl",
+      "source-layer": "Torrfall",
+      "minzoom": 10,
       "paint": {
-        "line-color": "#22d",
-        "line-width": 0.5,
-        "line-opacity": 0.5
+        "fill-color": "#6bbfab"
+      }
+    },
+
+    {
+      "id": "N500Jernbane",
+      "type": "line",
+      "minzoom": 8,
+      "maxzoom": 11,
+      "source": "dnl",
+      "source-layer": "N500Jernbane",
+      "paint": {
+        "line-width": 4,
+        "line-color": "#3A4242",
+        "line-dasharray": [0.1, 1.2]
+      }
+    },
+
+    {
+      "id": "N500Jernbane2",
+      "type": "line",
+      "minzoom": 8,
+      "maxzoom": 11,
+      "source": "dnl",
+      "source-layer": "N500Jernbane",
+      "paint": {
+        "line-width": 1,
+        "line-color": "#3A4242"
+      }
+    },
+
+    {
+      "id": "N500Privatveg",
+      "type": "line",
+      "source": "dnl",
+      "source-layer": "N500Bilveg",
+      "minzoom": 11,
+      "maxzoom": 11,
+      "filter": [
+        "all",
+        ["!=", "medium", "U"],
+        ["!=", "vegstatus", "P"],
+        ["!in", "objtype", "Traktorveg", "Sti"],
+        ["==", "vegkategori", "P"]
+      ],
+      "paint": {
+        "line-color": "#C9C9C9",
+        "line-width": {
+          "base": 1.55,
+          "stops": [[4, 0.5], [14, 2]]
+        }
+      }
+    },
+
+    {
+      "id": "N500Kommunalveg",
+      "type": "line",
+      "source": "dnl",
+      "source-layer": "N500Bilveg",
+      "minzoom": 10,
+      "maxzoom": 11,
+      "filter": [
+        "all",
+        ["!=", "medium", "U"],
+        ["!=", "vegstatus", "P"],
+        ["!in", "objtype", "Traktorveg", "Sti"],
+        ["==", "vegkategori", "K"]
+      ],
+      "paint": {
+        "line-color": "#C9C9C9",
+        "line-width": {
+          "base": 4,
+          "stops": [[4, 1], [14, 7]]
+        }
+      }
+    },
+
+    {
+      "id": "N500Fylkesveg",
+      "type": "line",
+      "source": "dnl",
+      "source-layer": "N500Bilveg",
+      "minzoom": 8,
+      "maxzoom": 11,
+      "filter": [
+        "all",
+        ["!=", "medium", "U"],
+        ["!=", "vegstatus", "P"],
+        ["!in", "objtype", "Traktorveg", "Sti"],
+        ["==", "vegkategori", "F"]
+      ],
+      "paint": {
+        "line-color": "#B0B0B0",
+        "line-width": {
+          "base": 1.5,
+          "stops": [[4, 1], [14, 3]]
+        }
+      }
+    },
+
+    {
+      "id": "N2000Eurogriks_klasseA",
+      "type": "line",
+      "source": "dnl",
+      "source-layer": "N2000Bilveg",
+      "maxzoom": 8,
+      "filter": [
+        "all",
+        ["!=", "vegstatus", "P"],
+        ["!in", "objtype", "Traktorveg", "Sti"],
+        ["in", "vegkategori", "R", "E"],
+        ["==", "motorvegtype", "Motorveg"]
+      ],
+      "paint": {
+        "line-color": "#8F8F8F",
+        "line-width": {
+          "base": 1.2,
+          "stops": [[4, 4], [14, 12]]
+        },
+        "line-blur": 2
       }
     },
     {
-      "id": "COALNE",
+      "id": "N2000Eurogriks",
       "type": "line",
-      "source": "vt",
-      "source-layer": "COALNE",
+      "source": "dnl",
+      "source-layer": "N2000Bilveg",
+      "minzoom": 2,
+      "maxzoom": 8,
+      "filter": [
+        "all",
+        ["!=", "vegstatus", "P"],
+        ["!in", "objtype", "Traktorveg", "Sti"],
+        ["in", "vegkategori", "R", "E"],
+        ["!=", "motorvegtype", "Motorveg"]
+      ],
       "paint": {
-        "line-color": "#555",
+        "line-color": "#8F8F8F",
+        "line-width": {
+          "base": 1.2,
+          "stops": [[4, 2], [14, 12]]
+        },
+        "line-blur": 2
+      }
+    },
+
+    {
+      "id": "N500Eurogriks_klasseA",
+      "type": "line",
+      "source": "dnl",
+      "source-layer": "N500Bilveg",
+      "minzoom": 8,
+      "maxzoom": 11,
+      "filter": [
+        "all",
+        ["!=", "medium", "U"],
+        ["!=", "vegstatus", "P"],
+        ["!in", "objtype", "Traktorveg", "Sti"],
+        ["in", "vegkategori", "R", "E"],
+        ["==", "motorvegtype", "Motorveg"]
+      ],
+      "paint": {
+        "line-color": "#8F8F8F",
+        "line-width": {
+          "base": 1.55,
+          "stops": [[4, 2], [14, 12]]
+        }
+      }
+    },
+
+    {
+      "id": "N500Eurogriks",
+      "type": "line",
+      "source": "dnl",
+      "source-layer": "N500Bilveg",
+      "minzoom": 8,
+      "maxzoom": 11,
+      "filter": [
+        "all",
+        ["!=", "medium", "U"],
+        ["!=", "vegstatus", "P"],
+        ["!in", "objtype", "Traktorveg", "Sti"],
+        ["in", "vegkategori", "R", "E"],
+        ["!=", "motorvegtype", "Motorveg"]
+      ],
+      "paint": {
+        "line-color": "#8F8F8F",
+        "line-width": {
+          "base": 1.55,
+          "stops": [[4, 1], [14, 12]]
+        }
+      }
+    },
+    {
+      "id": "Tunnel",
+      "type": "line",
+      "source": "dnl",
+      "maxzoom": 11,
+      "source-layer": "N500Bilveg",
+      "filter": ["==", "medium", "U"],
+      "paint": {
+        "line-width": 1.5,
+        "line-color": "#AAA",
+        "line-dasharray": [4, 2]
+      }
+    },
+
+    {
+      "id": "place-city-label_2000",
+      "type": "symbol",
+      "source": "dnl",
+      "source-layer": "N2000Stedsnavn",
+      "maxzoom": 8,
+      "layout": {
+        "symbol-sort-key": ["to-number", ["get", "skriftkode"]],
+
+        "text-font": ["Open Sans Regular"],
+        "text-field": [
+          "step",
+          ["zoom"],
+          [
+            "match",
+            ["to-number", ["get", "skriftkode"]],
+            [1],
+            ["get", "textstring"],
+            ["get", "textstring"]
+          ],
+          4,
+          [
+            "match",
+            ["to-number", ["get", "skriftkode"]],
+            [1, 2, 3, 11, 12],
+            ["to-string", ["get", "textstring"]],
+            ""
+          ],
+          7,
+          [
+            "match",
+            ["to-number", ["get", "skriftkode"]],
+            [1, 2, 3, 4, 6, 7, 8, 9, 11, 12],
+            ["to-string", ["get", "textstring"]],
+            ""
+          ]
+        ],
+        "text-size": [
+          "interpolate",
+          ["linear"],
+          ["to-number", ["get", "skriftkode"]],
+          1,
+          18,
+          2,
+          14,
+          3,
+          12,
+          4,
+          11,
+          5,
+          9,
+          6,
+          10,
+          7,
+          18,
+          8,
+          12,
+          9,
+          12,
+          10,
+          12,
+          11,
+          16,
+          12,
+          16
+        ]
+      },
+      "paint": {
+        "text-color": [
+          "interpolate",
+          ["linear"],
+          ["to-number", ["get", "skriftkode"]],
+          1,
+          "rgb(50,50,50)",
+          2,
+          "rgb(50,50,50)",
+          3,
+          "rgb(50,50,50)",
+          4,
+          "rgb(50,50,50)",
+          5,
+          "rgb(50,50,50)",
+          6,
+          "rgb(71, 35, 21)",
+          7,
+          "rgb(53, 60, 12)",
+          8,
+          "rgb(50,50,50)",
+          9,
+          "rgb(50,50,50)",
+          10,
+          "rgb(50,50,50)",
+          11,
+          "rgb(18, 55, 120)",
+          12,
+          "rgb(18, 55, 120)"
+        ]
+      }
+    },
+
+    {
+      "id": "N50Bygningsflate",
+      "type": "fill",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "N50Bygningsflate",
+      "paint": {
+        "fill-color": "#A8A8A8"
+      }
+    },
+    {
+      "id": "Dybdelag",
+      "type": "fill",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "Dybdelag",
+      "paint": {
+        "fill-color": [
+          "interpolate",
+          ["linear"],
+          ["to-number", ["get", "dybdeverdi_min"]],
+          0,
+          "#8cc7ed",
+          10,
+          "#cce9f2",
+          20,
+          "#e7f6fd",
+          2000,
+          "#e7f6fd"
+        ]
+      }
+    },
+    {
+      "id": "Dybdekontur",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "Dybdekontur",
+      "paint": {
         "line-width": 1,
-        "line-opacity": 1
+        "line-color": "#93aebb"
+      }
+    },
+    {
+      "id": "MudretOmrade_Grense",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "MudretOmrade_Grense",
+      "paint": {
+        "line-width": 1,
+        "line-color": "rgba(190,190,190,1)",
+        "line-dasharray": [5, 5]
+      }
+    },
+    {
+      "id": "MudretOmrade",
+      "type": "fill",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "MudretOmrade",
+      "paint": {
+        "fill-color": "rgba(254,254,254,1)"
+      }
+    },
+    {
+      "id": "Flytebrygge",
+      "type": "fill",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "Flytebrygge",
+      "paint": {
+        "fill-color": "#57656b"
+      }
+    },
+    {
+      "id": "Flytebrygge_Grense",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "Flytebrygge_Grense",
+      "paint": {
+        "line-width": 1,
+        "line-color": "#57656b"
+      }
+    },
+    {
+      "id": "flytebrygge_l",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "flytebrygge_l",
+      "paint": {
+        "line-width": 1,
+        "line-color": "#57656b"
+      }
+    },
+    {
+      "id": "Flytedokk",
+      "type": "fill",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "Flytedokk",
+      "paint": {
+        "fill-color": "#57656b"
+      }
+    },
+    {
+      "id": "flytedokk_grense",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "flytedokk_grense",
+      "paint": {
+        "line-width": 1,
+        "line-color": "#57656b"
+      }
+    },
+    {
+      "id": "Torrdokk_Grense",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "Torrdokk_Grense",
+      "paint": {
+        "line-width": 1,
+        "line-color": "#57656b"
+      }
+    },
+    {
+      "id": "skjaer_punkt",
+      "type": "circle",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "skjaer_punkt",
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "circle-radius": 3,
+        "circle-color": "rgba(1,1,1,1)",
+        "circle-stroke-color": "rgba(255,255,255,1)",
+        "circle-stroke-width": 1
+      }
+    },
+    {
+      "id": "Konstruertkystkontur",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "Konstruertkystkontur",
+      "paint": {
+        "line-width": 1,
+        "line-color": "#57656b"
+      }
+    },
+    {
+      "id": "konst_kyst_l",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "konst_kyst_l",
+      "paint": {
+        "line-width": 1,
+        "line-color": "#57656b"
+      }
+    },
+    {
+      "id": "Kystkontur",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "Kystkontur",
+      "paint": {
+        "line-width": 1,
+        "line-color": "#57656b"
+      }
+    },
+    {
+      "id": "N50Vannflate",
+      "type": "fill",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "N50Vannflate",
+      "filter": ["in", "objtype", "ElvBekk", "Innsjø"],
+      "paint": {
+        "fill-color": "#e7f6fd"
+      }
+    },
+    {
+      "id": "N50Elver",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "N50Elver",
+      "paint": {
+        "line-width": 1,
+        "line-color": "#e7f6fd"
+      }
+    },
+    {
+      "id": "N50Flomlop",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "N50Flomlop",
+      "paint": {
+        "line-width": 1,
+        "line-color": "#e7f6fd"
+      }
+    },
+    {
+      "id": "N50Hoydekurver",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "N50Hoydekurver",
+      "paint": {
+        "line-width": 0.5,
+        "line-color": "rgba(200,133,70,1)"
+      }
+    },
+    {
+      "id": "N50Hoydepunkt",
+      "type": "circle",
+      "minzoom": 12,
+      "source": "dnl",
+      "source-layer": "N50Hoydepunkt",
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "circle-radius": 2,
+        "circle-color": "#351b03"
+      }
+    },
+    {
+      "id": "N50Hoydepunkt_label",
+      "type": "symbol",
+      "minzoom": 12,
+      "source": "dnl",
+      "source-layer": "N50Hoydepunkt",
+      "layout": {
+        "visibility": "visible",
+        "text-font": ["Open Sans Regular"],
+        "text-size": 10,
+        "text-field": "{hoyde}",
+        "text-anchor": "bottom"
+      },
+      "paint": {
+        "text-color": "#351b03"
+      }
+    },
+    {
+      "interactive": true,
+      "id": "N50Skytefeltgrense",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "Skytefeltgrense",
+      "paint": {
+        "line-width": 2,
+        "line-color": "rgba(254,200,254,1)"
+      }
+    },
+    {
+      "id": "N50Jernbane",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "N50Jernbane",
+      "paint": {
+        "line-width": 4,
+        "line-color": "#3A4242",
+        "line-dasharray": [0.1, 1.2]
+      }
+    },
+
+    {
+      "id": "N50Jernbane2",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "N50Jernbane",
+      "paint": {
+        "line-width": 1,
+        "line-color": "#3A4242"
+      }
+    },
+    {
+      "id": "Molo_n50",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "N50Anleggslinje",
+      "filter": ["==", "objtype", "Molo"],
+      "paint": {
+        "line-width": 1,
+        "line-color": "rgba(1,1,1,1)"
+      }
+    },
+    {
+      "id": "Dam_n50",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "N50Anleggslinje",
+      "filter": ["==", "objtype", "Dam"],
+      "paint": {
+        "line-width": 1,
+        "line-color": "rgba(1,1,1,1)"
+      }
+    },
+    {
+      "id": "KaiBrygge_n50",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "N50Anleggslinje",
+      "filter": ["==", "objtype", "KaiBrygge"],
+      "paint": {
+        "line-width": 1,
+        "line-color": "rgba(1,1,1,1)"
+      }
+    },
+    {
+      "id": "Navigasjonsinstallasjon",
+      "type": "circle",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "N50Anleggspunkt",
+      "filter": ["==", "objtype", "Navigasjonsinstallasjon"],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "circle-radius": 3,
+        "circle-color": "rgba(150,1,1,1)"
+      }
+    },
+    {
+      "id": "Tårn",
+      "type": "circle",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "N50Anleggspunkt",
+      "filter": ["==", "objtype", "Tårn"],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "circle-radius": 3,
+        "circle-color": "rgba(255,1,1,1)"
+      }
+    },
+    {
+      "id": "Mast",
+      "type": "circle",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "N50Anleggspunkt",
+      "filter": ["==", "objtype", "Mast"],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "circle-radius": 3,
+        "circle-color": "rgba(255,1,1,1)"
+      }
+    },
+    {
+      "id": "Heli",
+      "type": "circle",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "N50Arealdekkepunkt",
+      "filter": ["==", "lufthavntype", "H"],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "circle-radius": 8,
+        "circle-color": "rgba(154,95,33,1)"
+      }
+    },
+    {
+      "id": "N50Bilveg10-12",
+      "type": "line",
+      "source": "dnl",
+      "source-layer": "N50Bilveg",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        ["!=", "medium", "U"],
+        ["in", "vegkategori", "R", "E", "F"]
+      ],
+      "paint": {
+        "line-color": "#A8A8A8",
+        "line-width": 3
+      }
+    },
+    {
+      "id": "N50Bilveg12",
+      "type": "line",
+      "source": "dnl",
+      "source-layer": "N50Bilveg",
+      "minzoom": 12,
+      "filter": ["all", ["!=", "medium", "U"], ["in", "vegkategori", "K"]],
+      "paint": {
+        "line-color": "#A8A8A8",
+        "line-width": 2
+      }
+    },
+    {
+      "id": "N50Bilveg13",
+      "type": "line",
+      "source": "dnl",
+      "source-layer": "N50Bilveg",
+      "minzoom": 13,
+      "filter": ["all", ["!=", "medium", "U"], ["in", "vegkategori", "P"]],
+      "paint": {
+        "line-color": "#A8A8A8",
+        "line-width": 1
+      }
+    },
+    {
+      "id": "Dybdepunkt-label<20",
+      "type": "symbol",
+      "minzoom": 12,
+      "source": "dnl",
+      "source-layer": "Dybdepunkt",
+      "filter": ["<", ["to-number", ["get", "dybdeverdi"]], 20],
+      "icon-padding": 20,
+      "layout": {
+        "visibility": "visible",
+        "text-padding": 10,
+        "text-font": ["Open Sans Regular"],
+        "text-size": 9,
+        "text-field": [
+          "to-string",
+          ["/", ["round", ["*", ["to-number", ["get", "dybdeverdi"]], 10]], 10]
+        ]
+      },
+      "paint": {
+        "text-color": "rgba(1,1,1,1)",
+        "text-halo-width": 1.5,
+        "text-halo-color": "rgba(254,254,254,1)"
+      }
+    },
+    {
+      "id": "Dybdepunkt-label>20",
+      "type": "symbol",
+      "minzoom": 12,
+      "source": "dnl",
+      "source-layer": "Dybdepunkt",
+      "filter": [">", ["to-number", ["get", "dybdeverdi"]], 20],
+      "icon-padding": 20,
+      "layout": {
+        "visibility": "visible",
+        "text-padding": 10,
+        "text-font": ["Open Sans Regular"],
+        "text-size": 9,
+        "text-field": [
+          "to-string",
+          ["/", ["round", ["*", ["to-number", ["get", "dybdeverdi"]], 1]], 1]
+        ]
+      },
+      "paint": {
+        "text-color": "rgba(1,1,1,1)",
+        "text-halo-width": 1.5,
+        "text-halo-color": "rgba(254,254,254,1)"
+      }
+    },
+    {
+      "id": "grunne-label<20",
+      "type": "symbol",
+      "source": "dnl",
+      "source-layer": "grunne",
+      "filter": ["<", ["to-number", ["get", "dybdeverdi"]], 20],
+      "minzoom": 10,
+      "layout": {
+        "visibility": "visible",
+        "text-font": ["Open Sans Bold"],
+        "text-size": 10,
+        "text-field": [
+          "to-string",
+          ["/", ["round", ["*", ["to-number", ["get", "dybdeverdi"]], 10]], 10]
+        ]
+      },
+      "paint": {
+        "text-color": "rgba(5,5,5,1)",
+        "text-halo-width": 1.5,
+        "text-halo-color": "rgba(254,254,254,1)"
+      }
+    },
+    {
+      "id": "grunne-label>20",
+      "type": "symbol",
+      "source": "dnl",
+      "source-layer": "grunne",
+      "filter": [">", ["to-number", ["get", "dybdeverdi"]], 20],
+      "minzoom": 10,
+      "layout": {
+        "visibility": "visible",
+        "text-font": ["Open Sans Bold"],
+        "text-size": 10,
+        "text-field": [
+          "to-string",
+          ["/", ["round", ["*", ["to-number", ["get", "dybdeverdi"]], 1]], 1]
+        ]
+      },
+      "paint": {
+        "text-color": "rgba(5,5,5,1)",
+        "text-halo-width": 1.5,
+        "text-halo-color": "rgba(254,254,254,1)"
+      }
+    },
+    {
+      "id": "Dybdekontur-label<20",
+      "type": "symbol",
+      "source": "dnl",
+      "source-layer": "Dybdekontur",
+      "filter": ["<", "dybdeverdi_kontur", "20"],
+      "minzoom": 14,
+      "layout": {
+        "visibility": "visible",
+        "symbol-placement": "line",
+        "text-font": ["Open Sans Regular"],
+        "text-size": 8,
+        "text-field": [
+          "to-string",
+          [
+            "/",
+            ["round", ["*", ["to-number", ["get", "dybdeverdi_kontur"]], 10]],
+            10
+          ]
+        ]
+      },
+      "paint": {
+        "text-color": "#000000",
+        "text-halo-width": 1.5,
+        "text-halo-color": "rgba(255,255,255,0.7)"
+      }
+    },
+    {
+      "id": "Dybdekontur-label>20",
+      "type": "symbol",
+      "source": "dnl",
+      "source-layer": "Dybdekontur",
+      "filter": [">", "dybdeverdi_kontur", "20"],
+      "minzoom": 14,
+      "layout": {
+        "visibility": "visible",
+        "symbol-placement": "line",
+        "text-font": ["Open Sans Regular"],
+        "text-size": 8,
+        "text-field": [
+          "to-string",
+          [
+            "/",
+            ["round", ["*", ["to-number", ["get", "dybdeverdi_kontur"]], 1]],
+            1
+          ]
+        ]
+      },
+      "paint": {
+        "text-color": "#000000",
+        "text-halo-width": 1.5,
+        "text-halo-color": "rgba(255,255,255,0.7)"
       }
     },
     {
       "id": "SLCONS",
       "type": "line",
-      "source": "vt",
+      "source": "s57",
       "source-layer": "SLCONS",
       "paint": {
         "line-color": "#555",
@@ -616,24 +1104,14 @@
     {
       "id": "PIPSOL",
       "type": "line",
-      "source": "vt",
+      "source": "s57",
       "source-layer": "PIPSOL",
-      "filter": [
-        "==",
-        "$type",
-        "LineString"
-      ],
+      "filter": ["==", "$type", "LineString"],
       "paint": {
         "line-color": "#ff0000",
-        "line-dasharray": [
-          6,
-          6
-        ],
+        "line-dasharray": [6, 6],
         "line-width": {
-          "stops": [
-              [ 12, 0.8 ],
-              [ 17, 2 ]
-          ]
+          "stops": [[12, 0.8], [17, 2]]
         },
         "line-opacity": 0.6
       }
@@ -641,24 +1119,14 @@
     {
       "id": "CBLSUB",
       "type": "line",
-      "source": "vt",
+      "source": "s57",
       "source-layer": "CBLSUB",
-      "filter": [
-        "==",
-        "$type",
-        "LineString"
-      ],
+      "filter": ["==", "$type", "LineString"],
       "paint": {
         "line-color": "#ff0000",
-        "line-dasharray": [
-          6,
-          6
-        ],
+        "line-dasharray": [6, 6],
         "line-width": {
-          "stops": [
-              [ 12, 0.8 ],
-              [ 17, 2 ]
-          ]
+          "stops": [[12, 0.8], [17, 2]]
         },
         "line-opacity": 0.6
       }
@@ -666,87 +1134,23 @@
     {
       "id": "FERYRT",
       "type": "line",
-      "source": "vt",
+      "source": "s57",
       "source-layer": "FERYRT",
-      "filter": [
-        "==",
-        "$type",
-        "LineString"
-      ],
+      "filter": ["==", "$type", "LineString"],
       "paint": {
         "line-color": "#ff0000",
-        "line-dasharray": [
-          6,
-          6
-        ],
+        "line-dasharray": [6, 6],
         "line-width": {
-          "stops": [
-              [ 12, 0.8 ],
-              [ 17, 2 ]
-          ]
+          "stops": [[12, 0.8], [17, 2]]
         },
         "line-opacity": 0.6
       }
     },
     {
-      "id": "DEPCNT_VALDCO",
-      "type": "symbol",
-      "source": "vt",
-      "source-layer": "DEPCNT",
-      "minzoom": 12,
-      "layout": {
-        "text-field": "{VALDCO_TXT}",
-        "text-max-angle": 28.65,
-        "symbol-placement": "line",
-        "text-size": 10
-      },
-      "paint": {
-        "text-color": "#22d",
-        "text-halo-color": "rgb(244,239,225)",
-        "text-halo-width": 1.5
-      },
-      "paint.night": {
-        "text-color": "#ffff80",
-        "text-halo-color": "#017293",
-        "text-halo-width": 1.5
-      }
-    },
-    {
-      "id": "SOUNDG",
-      "type": "symbol",
-      "source": "vt",
-      "source-layer": "SOUNDG",
-      "minzoom": 12,
-      "layout": {
-        "text-field": "{VALSOU_TXT}",
-        "text-size": 12
-      },
-      "paint": {
-        "text-color": "#22d",
-        "text-halo-color": "rgb(244,239,225)",
-        "text-halo-width": 1.5
-      }
-    },
-    {
-      "id": "UWTROC",
-      "type": "symbol",
-      "source": "vt",
-      "source-layer": "UWTROC",
-      "minzoom": 12,
-      "layout": {
-        "text-field": "{VALSOU_TXT}",
-        "text-size": 12
-      },
-      "paint": {
-        "text-color": "#22d",
-        "text-halo-color": "rgb(244,239,225)",
-        "text-halo-width": 1.5
-      }
-    },
-    {
       "id": "LIGHTS_LEG",
       "type": "line",
-      "source": "vt",
+      "minzoom": 11,
+      "source": "s57",
       "source-layer": "LIGHTS_LEG",
       "paint": {
         "line-color": "#000000",
@@ -757,7 +1161,8 @@
     {
       "id": "LIGHTS_ARC_BG",
       "type": "line",
-      "source": "vt",
+      "minzoom": 11,
+      "source": "s57",
       "source-layer": "LIGHTS_ARC",
       "paint": {
         "line-color": "#000000",
@@ -768,13 +1173,10 @@
     {
       "id": "LIGHTS_ARC_1",
       "type": "line",
-      "source": "vt",
+      "minzoom": 11,
+      "source": "s57",
       "source-layer": "LIGHTS_ARC",
-      "filter": [
-        "==",
-        "COLOUR",
-        "1"
-      ],
+      "filter": ["==", "COLOUR", "1"],
       "paint": {
         "line-color": "#e4df35",
         "line-width": 3,
@@ -784,13 +1186,10 @@
     {
       "id": "LIGHTS_ARC_3",
       "type": "line",
-      "source": "vt",
+      "minzoom": 11,
+      "source": "s57",
       "source-layer": "LIGHTS_ARC",
-      "filter": [
-        "==",
-        "COLOUR",
-        "3"
-      ],
+      "filter": ["==", "COLOUR", "3"],
       "paint": {
         "line-color": "#ea5470",
         "line-width": 3,
@@ -800,13 +1199,10 @@
     {
       "id": "LIGHTS_ARC_4",
       "type": "line",
-      "source": "vt",
+      "minzoom": 11,
+      "source": "s57",
       "source-layer": "LIGHTS_ARC",
-      "filter": [
-        "==",
-        "COLOUR",
-        "4"
-      ],
+      "filter": ["==", "COLOUR", "4"],
       "paint": {
         "line-color": "#61e637",
         "line-width": 3,
@@ -816,20 +1212,13 @@
     {
       "id": "S52_SYMBOL",
       "type": "symbol",
-      "source": "vt",
+      "minzoom": 11,
+      "source": "s57",
       "source-layer": "S52_SYMBOL",
       "filter": [
         "all",
-        ["none", [ ">=", "ROTATE", 0 ], [ "<=", "ROTATE", 360 ]],
-        [
-          "!in",
-          "OBCL",
-          "UWTROC",
-          "SOUNDG",
-          "BUAARE",
-          "LNDARE",
-          "LNDRGN"
-        ]
+        ["none", [">=", "ROTATE", 0], ["<=", "ROTATE", 360]],
+        ["!in", "OBCL", "UWTROC", "SOUNDG", "BUAARE", "LNDARE", "LNDRGN"]
       ],
       "layout": {
         "icon-image": "{SYMBOL}",
@@ -839,24 +1228,13 @@
     {
       "id": "S52_SYMBOL_135",
       "type": "symbol",
-      "source": "vt",
+      "minzoom": 11,
+      "source": "s57",
       "source-layer": "S52_SYMBOL",
       "filter": [
         "all",
-        [
-          "==",
-          "ROTATE",
-          135
-        ],
-        [
-          "!in",
-          "OBCL",
-          "UWTROC",
-          "SOUNDG",
-          "BUAARE",
-          "LNDARE",
-          "LNDRGN"
-        ]
+        ["==", "ROTATE", 135],
+        ["!in", "OBCL", "UWTROC", "SOUNDG", "BUAARE", "LNDARE", "LNDRGN"]
       ],
       "layout": {
         "icon-image": "{SYMBOL}",
@@ -865,40 +1243,411 @@
       }
     },
     {
-      "id": "ledning",
+      "id": "Luftledning",
       "type": "line",
-      "source": "vt",
-      "source-layer": "Ledning",
+      "minzoom": 11,
+      "source": "nrl",
+      "source-layer": "linjehindre",
       "paint": {
-        "line-color": "#000",
-        "line-width": 0.5,
-        "line-opacity": 0.5
+        "line-width": 0.8,
+        "line-color": "#ec008c"
       }
     },
     {
-      "id": "luftledning",
+      "id": "kommuner",
       "type": "line",
-      "source": "vt",
-      "source-layer": "LuftledningLH",
+      "source": "adm_enheter",
+      "source-layer": "kommuner_gjel",
       "paint": {
-        "line-color": "#000",
-        "line-width": 0.5,
-        "line-opacity": 0.5
+        "line-width": 1,
+        "line-color": "rgba(150,150,150,1)",
+        "line-dasharray": [5, 5]
+      }
+    },
+
+    {
+      "id": "fylker_2000",
+      "type": "line",
+      "source": "dnl",
+      "minzoom": 6,
+      "maxzoom": 10,
+      "source-layer": "N2000AdministrativeGrenser",
+      "filter": ["==", "objtype", "Fylkesgrense"],
+      "paint": {
+        "line-width": 2,
+        "line-color": "rgba(70,70,70,1)",
+        "line-dasharray": [3, 4],
+        "line-blur": 1
+      }
+    },
+
+    {
+      "id": "fylker_250",
+      "type": "line",
+      "minzoom": 10,
+      "source": "dnl",
+      "source-layer": "N250AdministrativeGrenser",
+      "filter": ["==", "objtype", "Fylkesgrense"],
+      "paint": {
+        "line-width": 3,
+        "line-color": "rgba(100,100,100,1)",
+        "line-dasharray": [3, 4],
+        "line-blur": 1
       }
     },
     {
-      "id": "skrivemåte",
+      "id": "place-city-label_500",
       "type": "symbol",
-      "source": "vt",
-      "source-layer": "Skrivemåte",
+      "source": "dnl",
+      "source-layer": "N500Stedsnavn",
+      "minzoom": 8,
+      "maxzoom": 12,
       "layout": {
-        "text-field": "{SNAVN}",
-        "text-size": 10
+        "symbol-sort-key": ["to-number", ["get", "skriftkode"]],
+        "text-font": ["Open Sans Regular"],
+        "text-field": [
+          "step",
+          ["zoom"],
+          [
+            "match",
+            ["to-number", ["get", "skriftkode"]],
+            [1],
+            ["get", "textstring"],
+            ""
+          ],
+          8,
+          [
+            "match",
+            ["to-number", ["get", "skriftkode"]],
+            [1, 2, 3, 4, 8, 10, 18, 25],
+            ["to-string", ["get", "textstring"]],
+            ""
+          ],
+          10,
+          [
+            "match",
+            ["to-number", ["get", "skriftkode"]],
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              25,
+              26,
+              28,
+              29
+            ],
+            ["to-string", ["get", "textstring"]],
+            ""
+          ]
+        ],
+        "text-size": [
+          "interpolate",
+          ["linear"],
+          ["to-number", ["get", "skriftkode"]],
+          1,
+          25,
+          2,
+          15,
+          3,
+          13,
+          4,
+          12,
+          5,
+          12,
+          6,
+          12,
+          7,
+          10,
+          8,
+          16,
+          10,
+          13,
+          11,
+          11,
+          13,
+          16,
+          14,
+          12,
+          15,
+          18,
+          16,
+          14,
+          17,
+          14,
+          18,
+          11,
+          19,
+          9,
+          20,
+          9,
+          21,
+          11,
+          22,
+          9,
+          25,
+          18,
+          26,
+          16,
+          28,
+          12,
+          29,
+          9
+        ]
       },
       "paint": {
-        "text-color": "#000",
-        "text-halo-color": "rgb(244,239,225)",
-        "text-halo-width": 1.5
+        "text-color": [
+          "interpolate",
+          ["linear"],
+          ["to-number", ["get", "skriftkode"]],
+          1,
+          "rgb(50,50,50)",
+          2,
+          "rgb(50,50,50)",
+          3,
+          "rgb(50,50,50)",
+          4,
+          "rgb(50,50,50)",
+          5,
+          "rgb(50,50,50)",
+          6,
+          "rgb(50,50,50)",
+          7,
+          "rgb(50,50,50)",
+          8,
+          "rgb(50,50,50)",
+          10,
+          "rgb(50,50,50)",
+          11,
+          "rgb(50,50,50)",
+          13,
+          "rgb(50,50,50)",
+          14,
+          "rgb(50,50,50)",
+          15,
+          "rgb(0,153,255)",
+          16,
+          "rgb(0,153,255)",
+          17,
+          "rgb(0,153,255)",
+          18,
+          "rgb(0,153,255)",
+          19,
+          "rgb(0,153,255)",
+          20,
+          "rgb(0,153,255)",
+          21,
+          "rgb(0,153,255)",
+          22,
+          "rgb(0,153,255)",
+          25,
+          "rgb(153,77,0)",
+          26,
+          "rgb(153,77,0)",
+          28,
+          "rgb(50,50,50)",
+          29,
+          "rgb(50,50,50)"
+        ],
+        "text-halo-width": [
+          "step",
+          ["zoom"],
+          ["literal", 0],
+          11,
+          ["literal", 2]
+        ],
+        "text-halo-color": "rgb(254,254,254)"
+      }
+    },
+    {
+      "id": "place-city-label_50",
+      "type": "symbol",
+      "source": "dnl",
+      "source-layer": "N50Stedsnavn",
+      "minzoom": 12,
+      "layout": {
+        "symbol-sort-key": ["to-number", ["get", "skriftkode"]],
+        "text-font": ["Open Sans Regular"],
+        "text-field": ["to-string", ["get", "textstring"]],
+        "text-size": ["to-number", ["get", "fontsize"]]
+      },
+      "paint": {
+        "text-color": [
+          "interpolate",
+          ["linear"],
+          ["to-number", ["get", "geodb_color"]],
+          101,
+          "rgb(0,0,0)",
+          102,
+          "rgb(0,0,0)",
+          103,
+          "rgb(0,0,0)",
+          104,
+          "rgb(0,0,0)",
+          105,
+          "rgb(0,0,0)",
+          111,
+          "rgb(0,0,0)",
+          112,
+          "rgb(0,0,0)",
+          113,
+          "rgb(0,0,0)",
+          121,
+          "rgb(0,0,0)",
+          122,
+          "rgb(0,0,0)",
+          131,
+          "rgb(0,0,0)",
+          132,
+          "rgb(0,0,0)",
+          133,
+          "rgb(0,0,0)",
+          134,
+          "rgb(0,0,0)",
+          142,
+          "rgb(0,0,0)",
+          201,
+          "rgb(0,0,0)",
+          202,
+          "rgb(0,0,0)",
+          203,
+          "rgb(0,0,0)",
+          204,
+          "rgb(0,0,0)",
+          205,
+          "rgb(0,0,0)",
+          211,
+          "rgb(0,0,0)",
+          212,
+          "rgb(0,0,0)",
+          213,
+          "rgb(0,0,0)",
+          214,
+          "rgb(0,0,0)",
+          215,
+          "rgb(0,0,0)",
+          221,
+          "rgb(0,92,230)",
+          222,
+          "rgb(0,92,230)",
+          223,
+          "rgb(0,92,230)",
+          224,
+          "rgb(0,92,230)",
+          225,
+          "rgb(0,92,230)",
+          226,
+          "rgb(0,92,230)",
+          227,
+          "rgb(0,92,230)",
+          231,
+          "rgb(0,0,0)",
+          232,
+          "rgb(0,0,0)",
+          233,
+          "rgb(0,0,0)",
+          234,
+          "rgb(0,0,0)",
+          241,
+          "rgb(0,92,230)",
+          242,
+          "rgb(0,92,230)",
+          243,
+          "rgb(0,92,230)",
+          244,
+          "rgb(0,92,230)",
+          245,
+          "rgb(0,92,230)",
+          307,
+          "rgb(0,0,0)",
+          502,
+          "rgb(0,0,0)",
+          503,
+          "rgb(0,0,0)",
+          504,
+          "rgb(0,0,0)",
+          505,
+          "rgb(0,0,0)",
+          512,
+          "rgb(0,0,0)",
+          513,
+          "rgb(0,0,0)",
+          521,
+          "rgb(0,0,0)",
+          522,
+          "rgb(0,0,0)",
+          534,
+          "rgb(0,0,0)",
+          601,
+          "rgb(0,0,0)",
+          602,
+          "rgb(0,0,0)",
+          603,
+          "rgb(0,0,0)",
+          604,
+          "rgb(0,0,0)",
+          605,
+          "rgb(0,0,0)",
+          611,
+          "rgb(0,0,0)",
+          612,
+          "rgb(0,0,0)",
+          613,
+          "rgb(0,0,0)",
+          614,
+          "rgb(0,0,0)",
+          615,
+          "rgb(0,0,0)",
+          622,
+          "rgb(0,92,230)",
+          623,
+          "rgb(0,92,230)",
+          624,
+          "rgb(0,92,230)",
+          625,
+          "rgb(0,92,230)",
+          626,
+          "rgb(0,92,230)",
+          627,
+          "rgb(0,92,230)",
+          634,
+          "rgb(0,0,0)",
+          641,
+          "rgb(0,92,230)",
+          642,
+          "rgb(0,92,230)",
+          643,
+          "rgb(0,92,230)",
+          644,
+          "rgb(0,92,230)",
+          645,
+          "rgb(0,92,230)"
+        ],
+        "text-halo-width": [
+          "step",
+          ["zoom"],
+          ["literal", 0],
+          12,
+          ["literal", 1]
+        ],
+        "text-halo-color": "rgb(254,254,240)"
       }
     }
   ]

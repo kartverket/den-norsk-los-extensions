@@ -216,10 +216,11 @@ export default {
                   placeFylke +
                   " - " +
                   nameType +
+                  " - ";
+                placeNameResults.value =
+                  placeLat + ", " + placeLng + 
                   " - " +
                   placeNumber;
-                placeNameResults.value =
-                  "(" + placeLat + ", " + placeLng + ")";
 
                 const checkForUnwanted = unwantedPlace.indexOf(nameType);
                 const checkForConfirmed = confirmedPlace.indexOf(nameStatus);

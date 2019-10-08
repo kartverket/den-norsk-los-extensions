@@ -9,6 +9,7 @@
       "name": "$t:placeholder",
       "comment": "$t:placeholder_comment",
       "interface": "text-input",
+      "default": "Søk etter stedsnavn eller lim inn posisjon (eks: 60°19,8’N 05°12,6’E )",
       "length": 200
     },
     "height": {
