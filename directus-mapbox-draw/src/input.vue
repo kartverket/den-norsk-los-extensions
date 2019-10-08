@@ -7,30 +7,29 @@
         </div>
       </div>
     </div>
-    <div class="map-actions">  
+    <div class="map-actions">
       <div class="ssr-search-container">
-          <v-input
-          type="text"            
+        <v-input
+          type="text"
           icon-right-color
           id="ssrSearch"
           :value="placeName || ''"
           :readonly="readonly"
           :placeholder="options.placeholder"
           :icon-left="options.iconLeft"
-          :icon-right="options.iconRight"            
+          :icon-right="options.iconRight"
           :charactercount="options.showCharacterCount"
           v-model="placeName"
           @input="readInput"
-          ></v-input>
-          <ul class="placename-list" v-if="placenames && placenames.length > 0">
-          <li 
-              v-for="placename in placenames" 
-              :key="placename.id"
-              @click="updateValueSSR(placename.label + placename.value)"
+        ></v-input>
+        <ul class="placename-list" v-if="placenames && placenames.length > 0">
+          <li
+            v-for="placename in placenames"
+            :key="placename.id"
+            @click="updateValueSSR(placename.label + placename.value)"
           >{{placename.label + placename.value}}</li>
-          </ul>
-      </div>        
-    
+        </ul>
+      </div>
     </div>
 
     <div class="map-details">
@@ -288,13 +287,13 @@ export default {
           console.log("init(): Send value to geometryParser ", this.value);
 
           parsedGeoObject = JSON.parse(geometryParser(this.value));
-          console.log('Parsed ok');
+          console.log("Parsed ok");
           // geoObject = JSON.parse(this.getGeoObject(pointData));
         }
       } else {
       }
 
-      console.log('We have geoobject: ', parsedGeoObject);
+      console.log("We have geoobject: ", parsedGeoObject);
 
       if (parsedGeoObject) {
         console.log(
@@ -304,7 +303,10 @@ export default {
         setTimeout(this.createMap, 2500, parsedGeoObject);
         // this.createMap(parsedGeoObject);
       } else {
-        console.log("init(): No geometry, insert error, create defaults, val: ",this.value);
+        console.log(
+          "init(): No geometry, insert error, create defaults, val: ",
+          this.value
+        );
         const defaultCollection = JSON.parse(
           '{"type":"FeatureCollection","features":[{"geometry":{"coordinates":[' +
             this.options.mapLng +
@@ -316,29 +318,36 @@ export default {
         setTimeout(this.createMap, 2500, defaultCollection);
       }
     },
-    updateValueSSR(valueSSR){
-      console.log('valueSSR: ',valueSSR);
+    updateValueSSR(valueSSR) {
+      console.log("valueSSR: ", valueSSR);
       const stringArray = valueSSR.split(" - ");
       let unformattedLat = stringArray[2].split(", ")[0];
       let unformattedLng = stringArray[2].split(", ")[1];
-      console.log('unformattedLat',unformattedLat,'unformattedLng',unformattedLng);
+      console.log(
+        "unformattedLat",
+        unformattedLat,
+        "unformattedLng",
+        unformattedLng
+      );
 
       const ssrLat = parseFloat(unformattedLat);
       const ssrLng = parseFloat(unformattedLng);
 
-      console.log('ssrLat: ',ssrLat,' ssrLng: ',ssrLng);
+      console.log("ssrLat: ", ssrLat, " ssrLng: ", ssrLng);
 
-      console.log('TODO: Oppdater punktet også hvis det eksisterer,lukk modal etterpå');
+      console.log(
+        "TODO: Oppdater punktet også hvis det eksisterer,lukk modal etterpå"
+      );
       const feature = {
         id: this.storedFeatures[0],
-        type: 'Feature',
+        type: "Feature",
         properties: {},
-        geometry: { type: 'Point', coordinates: [ssrLng, ssrLat] }
+        geometry: { type: "Point", coordinates: [ssrLng, ssrLat] }
       };
-      
+
       this.draw.add(feature);
       this.map.flyTo({
-          center: [ssrLng,ssrLat]
+        center: [ssrLng, ssrLat]
       });
 
       this.updateValue(this.draw.getAll());
@@ -353,7 +362,7 @@ export default {
 
       if (value.length > 2 && this.placename === "") {
         this.getPlacenames();
-      } else if(value.length < 2){
+      } else if (value.length < 2) {
         this.placename = "";
       }
 
@@ -363,81 +372,75 @@ export default {
       //   }
       // }
       this.$emit("input", value);
-    }, 
-    readInput(){
+    },
+    readInput() {
       let query = this.placeName.trim();
       console.log(query);
       const degreeCheck = query.indexOf("°");
 
       // Refactor into own function once functionality is decided, need to know what input formats we want to support
-      if(degreeCheck !== -1){
-        console.log('Read input if');
+      if (degreeCheck !== -1) {
+        console.log("Read input if");
 
         const latCheckN = query.indexOf("N"),
-        latCheckS = query.indexOf("S"),
-        lngCheckE = query.indexOf("E"),
-        lngCheckENo = query.indexOf("Ø"),
-        lngCheckW = query.indexOf("W"),
-        lngCheckWNo = query.indexOf("V");
+          latCheckS = query.indexOf("S"),
+          lngCheckE = query.indexOf("E"),
+          lngCheckENo = query.indexOf("Ø"),
+          lngCheckW = query.indexOf("W"),
+          lngCheckWNo = query.indexOf("V");
 
-        let locationArray,
-          lat;
+        let locationArray, lat;
 
-        if(latCheckN !== -1){
-            locationArray = query.split("N");
-            
-            lat = locationArray[0];
-            if(lat === ""){
-              console.log('N is in front of latitude',locationArray);
-              lat = locationArray[1];
-              lat = lat.replace(/\s/g,"");
-            } else {
-              lat = lat.replace(/\s/g,"");
-            }
-            
-        } else if(latCheckS !== -1){
-            locationArray = query.split("S");
-            lat = locationArray[0];
-            lat = lat.replace(/\s/g,"");
+        if (latCheckN !== -1) {
+          locationArray = query.split("N");
+
+          lat = locationArray[0];
+          if (lat === "") {
+            console.log("N is in front of latitude", locationArray);
+            lat = locationArray[1];
+            lat = lat.replace(/\s/g, "");
+          } else {
+            lat = lat.replace(/\s/g, "");
+          }
+        } else if (latCheckS !== -1) {
+          locationArray = query.split("S");
+          lat = locationArray[0];
+          lat = lat.replace(/\s/g, "");
         }
 
-        console.log(lat,latCheckN);
+        console.log(lat, latCheckN);
 
         const latDegree = lat.split("°");
 
         // Get minute by checking for comma or apostrophe
         let latMinute = "";
-        if(latDegree[1].indexOf(",")){
+        if (latDegree[1].indexOf(",")) {
           latMinute = latDegree[1].split(",");
-
-        } else if(latDegree[1].indexOf("\"")){
-          latMinute = latDegree[1].split("\"");
-
-        } else if(latDegree[1].indexOf(".")){
+        } else if (latDegree[1].indexOf('"')) {
+          latMinute = latDegree[1].split('"');
+        } else if (latDegree[1].indexOf(".")) {
           latMinute = latDegree[1].split(".");
-
         }
-    // console.log(latMinute);
+        // console.log(latMinute);
         let latSecond = "";
         let latFraction = 0;
-        if(latMinute.length === 1){
-          if(latMinute[0].indexOf("’")){
+        if (latMinute.length === 1) {
+          if (latMinute[0].indexOf("’")) {
             latSecond = latMinute[0].split("’");
-          } else if(latMinute[0].indexOf("'")){
+          } else if (latMinute[0].indexOf("'")) {
             latSecond = latMinute[0].split("'");
-          } else if(latMinute[0].indexOf("′")){
+          } else if (latMinute[0].indexOf("′")) {
             latSecond = latMinute[0].split("′");
           }
           latFraction = parseInt(latMinute[0] / 60);
           latFraction = latFraction + parseInt(latDegree[0]);
           latFraction = latFraction + parseFloat(latSecond[0] / 3600);
-
         } else {
-          if(latMinute[1].indexOf("’")){
+          if (latMinute[1].indexOf("’")) {
             latSecond = latMinute[1].split("’");
-          } else if(latMinute[1].indexOf("'")){
+          } else if (latMinute[1].indexOf("'")) {
             latSecond = latMinute[1].split("'");
-          } else if(latMinute[1].indexOf("′")){
+          } else if (latMinute[1].indexOf("′")) {
             latSecond = latMinute[0].split("′");
           }
 
@@ -445,61 +448,52 @@ export default {
           latFraction = latFraction + parseInt(latDegree[0]);
           latFraction = latFraction + parseFloat(latSecond[0] / 3600);
         }
-        
 
         // console.log('Lat: ' + latFraction.toFixed(4));
 
         let lng = locationArray[1];
-        lng = lng.replace(/\s/g,"");
+        lng = lng.replace(/\s/g, "");
 
-        let locationArrayLng,
-          longitude;
+        let locationArrayLng, longitude;
 
-        if(lngCheckE !== -1){
-            locationArrayLng = lng.split("E");
-            longitude = locationArrayLng[0];
-            if(longitude === ""){
-              longitude = locationArrayLng[1];
-              longitude = longitude.replace(/\s/g,"");
-            } else {
-              longitude = longitude.replace(/\s/g,"");
-            }
-            
-
-        } else if(lngCheckENo !== -1){
-            locationArrayLng = lng.split("Ø");
-            longitude = locationArrayLng[0];
-            longitude = longitude.replace(/\s/g,"");
-
-        } else if(lngCheckW !== -1){
-            locationArrayLng = lng.split("W");
-            longitude = locationArrayLng[0];
-            longitude = longitude.replace(/\s/g,"");
-
-        } else if(lngCheckWNo !== -1){
-            locationArrayLng = lng.split("V");
-            longitude = locationArrayLng[0];
-            longitude = longitude.replace(/\s/g,"");
-
+        if (lngCheckE !== -1) {
+          locationArrayLng = lng.split("E");
+          longitude = locationArrayLng[0];
+          if (longitude === "") {
+            longitude = locationArrayLng[1];
+            longitude = longitude.replace(/\s/g, "");
+          } else {
+            longitude = longitude.replace(/\s/g, "");
+          }
+        } else if (lngCheckENo !== -1) {
+          locationArrayLng = lng.split("Ø");
+          longitude = locationArrayLng[0];
+          longitude = longitude.replace(/\s/g, "");
+        } else if (lngCheckW !== -1) {
+          locationArrayLng = lng.split("W");
+          longitude = locationArrayLng[0];
+          longitude = longitude.replace(/\s/g, "");
+        } else if (lngCheckWNo !== -1) {
+          locationArrayLng = lng.split("V");
+          longitude = locationArrayLng[0];
+          longitude = longitude.replace(/\s/g, "");
         }
 
         const lngDegree = longitude.split("°");
 
         let lngMinute = "";
         // Get minute by checking for comma or apostrophe
-        if(lngDegree[1].indexOf(",")){
-            lngMinute = lngDegree[1].split(",");
-
-        } else if(lngDegree[1].indexOf("\"")){
-            lngMinute = lngDegree[1].split("\"");
-
+        if (lngDegree[1].indexOf(",")) {
+          lngMinute = lngDegree[1].split(",");
+        } else if (lngDegree[1].indexOf('"')) {
+          lngMinute = lngDegree[1].split('"');
         }
 
         let lngSecond = "";
-        if(lngMinute[1].indexOf("’")){
-            lngSecond = lngMinute[1].split("’");
-        } else if(lngMinute[1].indexOf("'")){
-            lngSecond = lngMinute[1].split("'");
+        if (lngMinute[1].indexOf("’")) {
+          lngSecond = lngMinute[1].split("’");
+        } else if (lngMinute[1].indexOf("'")) {
+          lngSecond = lngMinute[1].split("'");
         }
 
         let lngFraction = lngMinute[0] / 60;
@@ -510,46 +504,52 @@ export default {
 
         // Sanitize
 
-        if (!isNaN(latFraction) && latFraction.toString().indexOf('.') != -1){
+        if (!isNaN(latFraction) && latFraction.toString().indexOf(".") != -1) {
+          if (
+            !isNaN(lngFraction) &&
+            lngFraction.toString().indexOf(".") != -1
+          ) {
+            // Update point location
+            // this.geoObject.features[0].geometry.coordinates = [lngFraction, latFraction];
 
-            if (!isNaN(lngFraction) && lngFraction.toString().indexOf('.') != -1){
+            // map.getSource('point').setData(geojson);
+            console.log(this.draw.getAll());
 
-                // Update point location
-                // this.geoObject.features[0].geometry.coordinates = [lngFraction, latFraction];
+            const feature = {
+              id: this.storedFeatures[0],
+              type: "Feature",
+              properties: {},
+              geometry: {
+                type: "Point",
+                coordinates: [lngFraction, latFraction]
+              }
+            };
 
-                // map.getSource('point').setData(geojson);
-                console.log(this.draw.getAll());
+            this.draw.add(feature);
 
-                const feature = {
-                  id: this.storedFeatures[0],
-                  type: 'Feature',
-                  properties: {},
-                  geometry: { type: 'Point', coordinates: [lngFraction, latFraction] }
-                };
+            this.map.flyTo({
+              center: [lngFraction, latFraction]
+            });
 
-                this.draw.add(feature);
-                
-                this.map.flyTo({
-                    center: [lngFraction,latFraction]
-                });
-
-                this.updateValue(this.draw.getAll());
-            }
+            this.updateValue(this.draw.getAll());
+          }
         }
-
       } else {
-        console.log('Read input else');
-        if(query.length > 2){
+        console.log("Read input else");
+        if (query.length > 2) {
           this.getNames();
         }
       }
-
     },
 
     async getNames() {
       let query = this.placeName.trim().toLowerCase();
+
+      const isNum = /^\d+$/.test(query);
+      // console.log('query: ',query,'isNum: ', isNum);
+
       let ssrResults = [];
-      let resultLimit = 20;
+      let resultLimit = 50;
 
       const confirmedPlace = ["Godkjent", "Vedtatt", "Historisk"];
       const unwantedPlace = [
@@ -658,66 +658,84 @@ export default {
       // console.log("getPlacenames:");
 
       try {
-        const response = await fetch(
-          "https://ws.geonorge.no/SKWS3Index/v2/ssr/sok?navn=" +
-            query +
-            "*&epsgKode=4258&eksakteForst=true",
-          {
-            cache: "default",
-            dataType: "xml"
-          }
-        );
-        const data = await response.text();
-        parseString(data, function(err, result) {
-          if (result) {
-            // console.log(result,err);
-            if (result.sokRes.stedsnavn) {
-              if (result.sokRes.stedsnavn.length < resultLimit) {
-                resultLimit = result.sokRes.stedsnavn.length;
-              }
+        // console.log('isNum: ',isNum);
+        let response = "";
 
-              for (let r = 0; r < resultLimit; r++) {
-                let placeNameResults = {};
+        if (isNum) {
+          response = await fetch(
+            "https://ws.geonorge.no/SKWS3Index/v2/ssr/sok?stedsnummer=" + 
+            query + 
+            "&epsgKode=4258&eksakteForst=true",
+            {
+              cache: "default",
+              dataType: "xml"
+            }
+          );
+        } else {
+          response = await fetch(
+            "https://ws.geonorge.no/SKWS3Index/v2/ssr/sok?navn=" +
+              query +
+              "*&epsgKode=4258&eksakteForst=true",
+            {
+              cache: "default",
+              dataType: "xml"
+            }
+          );
+        }
 
-                const placeName = result.sokRes.stedsnavn[r].stedsnavn[0];
-                const placeKommune = result.sokRes.stedsnavn[r].kommunenavn[0];
-                const placeFylke = result.sokRes.stedsnavn[r].fylkesnavn[0];
-                let placeLat = result.sokRes.stedsnavn[r].nord[0];
-                let placeLng = result.sokRes.stedsnavn[r].aust[0];
-                const nameType = result.sokRes.stedsnavn[r].navnetype[0];
-                const placeNumber = result.sokRes.stedsnavn[r].stedsnummer[0];
-                const nameStatus = result.sokRes.stedsnavn[r].skrivemaatestatus[0];
+        if (response !== "") {
+          const data = await response.text();
+          parseString(data, function(err, result) {
+            if (result) {
+              // console.log(result,err);
+              if (result.sokRes.stedsnavn) {
+                if (result.sokRes.stedsnavn.length < resultLimit) {
+                  resultLimit = result.sokRes.stedsnavn.length;
+                }
 
-                placeNameResults.id = r;
+                for (let r = 0; r < resultLimit; r++) {
+                  let placeNameResults = {};
 
-                placeLat = parseFloat(placeLat).toFixed(4);
-                placeLng = parseFloat(placeLng).toFixed(4);
+                  const placeName = result.sokRes.stedsnavn[r].stedsnavn[0];
+                  const placeKommune =
+                    result.sokRes.stedsnavn[r].kommunenavn[0];
+                  const placeFylke = result.sokRes.stedsnavn[r].fylkesnavn[0];
+                  let placeLat = result.sokRes.stedsnavn[r].nord[0];
+                  let placeLng = result.sokRes.stedsnavn[r].aust[0];
+                  const nameType = result.sokRes.stedsnavn[r].navnetype[0];
+                  const placeNumber = result.sokRes.stedsnavn[r].stedsnummer[0];
+                  const nameStatus =
+                    result.sokRes.stedsnavn[r].skrivemaatestatus[0];
 
-                placeNameResults.label =
-                  placeName +
-                  ", " +
-                  placeKommune +
-                  ", " +
-                  placeFylke +
-                  " - " +
-                  nameType +
-                  " - ";
+                  placeNameResults.id = r;
+
+                  placeLat = parseFloat(placeLat).toFixed(4);
+                  placeLng = parseFloat(placeLng).toFixed(4);
+
+                  placeNameResults.label =
+                    placeName +
+                    ", " +
+                    placeKommune +
+                    ", " +
+                    placeFylke +
+                    " - " +
+                    nameType +
+                    " - ";
                   placeNameResults.value =
-                  placeLat + ", " + placeLng + 
-                  " - " + 
-                  placeNumber;
+                    placeLat + ", " + placeLng + " - " + placeNumber;
 
-                const checkForUnwanted = unwantedPlace.indexOf(nameType);
-                const checkForConfirmed = confirmedPlace.indexOf(nameStatus);
+                  const checkForUnwanted = unwantedPlace.indexOf(nameType);
+                  const checkForConfirmed = confirmedPlace.indexOf(nameStatus);
 
-                if (checkForUnwanted === -1 && checkForConfirmed !== -1) {
-                  ssrResults.push(placeNameResults);
+                  if (checkForUnwanted === -1 && checkForConfirmed !== -1) {
+                    ssrResults.push(placeNameResults);
+                  }
                 }
               }
             }
-          }
-        });
-        this.placenames = ssrResults;
+          });
+          this.placenames = ssrResults;
+        }
         // console.log("data: ", ssrResults);
       } catch (error) {
         console.error(error);
@@ -753,8 +771,12 @@ export default {
         let routeBounds = [];
 
         for (let i = 0; i < geometry.features.length; i++) {
-          if(geometry.features[i].geometry.coordinates.length > 2){
-            for(let j = 0; j < geometry.features[i].geometry.coordinates.length; j++){
+          if (geometry.features[i].geometry.coordinates.length > 2) {
+            for (
+              let j = 0;
+              j < geometry.features[i].geometry.coordinates.length;
+              j++
+            ) {
               const boundLat = geometry.features[i].geometry.coordinates[j][1];
               const boundLng = geometry.features[i].geometry.coordinates[j][0];
               routeBounds.push([boundLng, boundLat]);
@@ -764,7 +786,6 @@ export default {
             const boundLng = geometry.features[i].geometry.coordinates[0];
             routeBounds.push([boundLng, boundLat]);
           }
-          
         }
         // console.log(this.props.coordinates[0],this.props.coordinates[1]);
 
@@ -774,10 +795,10 @@ export default {
         // ]);
 
         const newBounds = bboxFromArray(routeBounds);
-        console.log('setbounds! ',newBounds);
-        
+        console.log("setbounds! ", newBounds);
+
         this.map.fitBounds(newBounds, {
-          padding: {top: 5, bottom:5, left: 50, right: 50}
+          padding: { top: 5, bottom: 5, left: 50, right: 50 }
         });
       }
 
@@ -808,12 +829,12 @@ export default {
       // If someone draws an object, store it in the geo object
       this.map.on("draw.create", function(e) {
         // Drawn object
-        console.log('Drawn object:',e);
+        console.log("Drawn object:", e);
 
         let storedValue = JSON.stringify(that.value);
-        
+
         // Stored object
-        console.log(that.storedFeatures,storedValue);
+        console.log(that.storedFeatures, storedValue);
 
         if (storedValue) {
           storedValue = storedValue.replace(/ /g, "");
@@ -824,7 +845,12 @@ export default {
           let contentArray = strippedContent.split(',{"id":');
 
           let stringObject = JSON.stringify(e["features"][0]);
-          console.log('contentArray: ',contentArray,' stringObject: ',stringObject);
+          console.log(
+            "contentArray: ",
+            contentArray,
+            " stringObject: ",
+            stringObject
+          );
 
           contentArray.push(stringObject);
 
@@ -841,7 +867,6 @@ export default {
             const geoObject =
               '{"features":[' + contentArray + '],"type": "FeatureCollection"}';
 
-            
             // var geoObject = JSON.stringify(geoJ);
             that.setValue(geoObject);
 
@@ -850,16 +875,15 @@ export default {
             // console.log(geoObject);
           } else {
             let stringObject = JSON.stringify(e["features"][0]);
-          
+
             const geoObject =
               '{"features":[' + stringObject + '],"type": "FeatureCollection"}';
-              
+
             that.setValue(geoObject);
             // var valueLat = that.options.value.split(',')[0];
             // var valueLon = that.options.value.split(',')[1];
           }
         } else {
-          
         }
       });
 
@@ -868,12 +892,12 @@ export default {
         console.log("draw delete: ", geometry, e);
         let geoJ = geometry;
 
-        if(e.features.length < 2){
+        if (e.features.length < 2) {
           that.setValue(null);
         } else {
           for (let i = 0; i < e.features.length; i++) {
             let thisItem = e.features[i];
-            
+
             console.log("thisItem[i].id: ", thisItem[i].id);
 
             for (let j = 0; j < geoJ["features"].length; j++) {
@@ -889,8 +913,6 @@ export default {
           const geoObject = JSON.stringify(geoJ);
           that.setValue(geoObject);
         }
-        
-        
       });
 
       // If someone moves a feature we want to update stored data
@@ -900,7 +922,6 @@ export default {
         let geoJ = that.value;
 
         if (e.action === "move" || e.action === "change_coordinates") {
-        
           // console.log("geoJ: ", geoJ.id);
 
           // Loop through all moved features
@@ -959,7 +980,7 @@ export default {
                   }
                 }
               } else {
-                console.log('Not primary');
+                console.log("Not primary");
                 if (featureType === "Point") {
                   let shortLng = parseFloat(
                     e.features[i].geometry.coordinates[0],
@@ -1012,13 +1033,23 @@ export default {
                 }
 
                 if (featureType === "LineString") {
-                  console.log('Line string');
+                  console.log("Line string");
                   for (let j = 0; j < geoJ["features"].length; j++) {
-                    console.log('geoJ["features"][j]["id"] ',geoJ["features"][j]["id"],' thisItem.id',thisItem.id);
+                    console.log(
+                      'geoJ["features"][j]["id"] ',
+                      geoJ["features"][j]["id"],
+                      " thisItem.id",
+                      thisItem.id
+                    );
 
                     if (geoJ["features"][j]["id"] == thisItem.id) {
                       // Loop through coordinate array containing points of the polygon
-                      for ( let k = 0; k < geoJ["features"][j]["geometry"]["coordinates"].length; k++) {
+                      for (
+                        let k = 0;
+                        k <
+                        geoJ["features"][j]["geometry"]["coordinates"].length;
+                        k++
+                      ) {
                         // Set lat long of each point in existing stored object
                         geoJ["features"][j]["geometry"]["coordinates"][
                           k
@@ -1176,29 +1207,31 @@ export default {
   padding-right: 2px; // To avoid cropping
 }
 
-.ssr-search-container{
+.ssr-search-container {
   position: relative;
   width: 450px;
 }
 
-#ssrSearch{
-    width: 250px;
+#ssrSearch {
+  width: 250px;
 }
-.ssr-search-container .v-input{
-    max-width: 90%;
+.ssr-search-container .v-input {
+  max-width: 90%;
 }
 
-.placename-list{
+.placename-list {
   position: absolute;
   z-index: 2;
   top: 43px;
   left: 0px;
-  background: rgba($color: #FFF, $alpha: 0.85);
+  height: 494px;
+  overflow: auto;
+  background: rgba($color: #fff, $alpha: 0.85);
   padding: 15px 0;
-  border: 1px solid #DFDFDF;
+  border: 1px solid #dfdfdf;
 }
 
-.placename-list li{
+.placename-list li {
   padding: 5px 15px;
   list-style: none;
   font-size: 16px;
@@ -1206,8 +1239,8 @@ export default {
   cursor: pointer;
 }
 
-.placename-list li:hover{
-  background-color: #dde3e6;  
+.placename-list li:hover {
+  background-color: #dde3e6;
 }
 
 //Read Only Map

@@ -15,8 +15,8 @@
       @input="updateValue"
     ></v-input>
     <ul class="placename-list" v-if="placenames && placenames.length > 0">
-      <li 
-        v-for="placename in placenames" 
+      <li
+        v-for="placename in placenames"
         :key="placename.id"
         @click="updateValueSSR(placename.label + placename.value)"
       >{{placename.label + placename.value}}</li>
@@ -36,8 +36,7 @@ export default {
     };
   },
   methods: {
-    updateValueSSR(valueSSR){
-      
+    updateValueSSR(valueSSR) {
       this.placename = valueSSR;
       this.placenames = [];
       this.$emit("input", valueSSR);
@@ -48,7 +47,7 @@ export default {
 
       if (value.length > 2 && this.placename === "") {
         this.getPlacenames();
-      } else if(value.length < 2){
+      } else if (value.length < 2) {
         this.placename = "";
       }
 
@@ -58,9 +57,12 @@ export default {
         }
       }
       this.$emit("input", value);
-    },    
+    },
     async getPlacenames() {
       let query = this.value.trim().toLowerCase();
+
+      const isNum = /^\d+$/.test(query);
+
       let ssrResults = [];
       let resultLimit = 50;
 
@@ -172,66 +174,83 @@ export default {
       // console.log("getPlacenames:");
 
       try {
-        const response = await fetch(
-          "https://ws.geonorge.no/SKWS3Index/v2/ssr/sok?navn=" +
-            query +
-            "*&epsgKode=4258&eksakteForst=true",
-          {
-            cache: "default",
-            dataType: "xml"
-          }
-        );
-        const data = await response.text();
-        parseString(data, function(err, result) {
-          if (result) {
-            // console.log(result,err);
-            if (result.sokRes.stedsnavn) {
-              if (result.sokRes.stedsnavn.length < resultLimit) {
-                resultLimit = result.sokRes.stedsnavn.length;
-              }
+        let response = "";
 
-              for (let r = 0; r < resultLimit; r++) {
-                let placeNameResults = {};
+        if (isNum) {
+          response = await fetch(
+            "https://ws.geonorge.no/SKWS3Index/v2/ssr/sok?stedsnummer=" +
+              query +
+              "&epsgKode=4258&eksakteForst=true",
+            {
+              cache: "default",
+              dataType: "xml"
+            }
+          );
+        } else {
+          response = await fetch(
+            "https://ws.geonorge.no/SKWS3Index/v2/ssr/sok?navn=" +
+              query +
+              "*&epsgKode=4258&eksakteForst=true",
+            {
+              cache: "default",
+              dataType: "xml"
+            }
+          );
+        }
 
-                const placeName = result.sokRes.stedsnavn[r].stedsnavn[0];
-                const placeKommune = result.sokRes.stedsnavn[r].kommunenavn[0];
-                const placeFylke = result.sokRes.stedsnavn[r].fylkesnavn[0];
-                let placeLat = result.sokRes.stedsnavn[r].nord[0];
-                let placeLng = result.sokRes.stedsnavn[r].aust[0];
-                const nameType = result.sokRes.stedsnavn[r].navnetype[0];
-                const placeNumber = result.sokRes.stedsnavn[r].stedsnummer[0];
-                const nameStatus = result.sokRes.stedsnavn[r].skrivemaatestatus[0];
+        if (response !== "") {
+          const data = await response.text();
+          parseString(data, function(err, result) {
+            if (result) {
+              // console.log(result,err);
+              if (result.sokRes.stedsnavn) {
+                if (result.sokRes.stedsnavn.length < resultLimit) {
+                  resultLimit = result.sokRes.stedsnavn.length;
+                }
 
-                placeNameResults.id = r;
+                for (let r = 0; r < resultLimit; r++) {
+                  let placeNameResults = {};
 
-                placeLat = parseFloat(placeLat).toFixed(4);
-                placeLng = parseFloat(placeLng).toFixed(4);
+                  const placeName = result.sokRes.stedsnavn[r].stedsnavn[0];
+                  const placeKommune =
+                    result.sokRes.stedsnavn[r].kommunenavn[0];
+                  const placeFylke = result.sokRes.stedsnavn[r].fylkesnavn[0];
+                  let placeLat = result.sokRes.stedsnavn[r].nord[0];
+                  let placeLng = result.sokRes.stedsnavn[r].aust[0];
+                  const nameType = result.sokRes.stedsnavn[r].navnetype[0];
+                  const placeNumber = result.sokRes.stedsnavn[r].stedsnummer[0];
+                  const nameStatus =
+                    result.sokRes.stedsnavn[r].skrivemaatestatus[0];
 
-                placeNameResults.label =
-                  placeName +
-                  ", " +
-                  placeKommune +
-                  ", " +
-                  placeFylke +
-                  " - " +
-                  nameType +
-                  " - ";
-                placeNameResults.value =
-                  placeLat + ", " + placeLng + 
-                  " - " +
-                  placeNumber;
+                  placeNameResults.id = r;
 
-                const checkForUnwanted = unwantedPlace.indexOf(nameType);
-                const checkForConfirmed = confirmedPlace.indexOf(nameStatus);
+                  placeLat = parseFloat(placeLat).toFixed(4);
+                  placeLng = parseFloat(placeLng).toFixed(4);
 
-                if (checkForUnwanted === -1 && checkForConfirmed !== -1) {
-                  ssrResults.push(placeNameResults);
+                  placeNameResults.label =
+                    placeName +
+                    ", " +
+                    placeKommune +
+                    ", " +
+                    placeFylke +
+                    " - " +
+                    nameType +
+                    " - ";
+                  placeNameResults.value =
+                    placeLat + ", " + placeLng + " - " + placeNumber;
+
+                  const checkForUnwanted = unwantedPlace.indexOf(nameType);
+                  const checkForConfirmed = confirmedPlace.indexOf(nameStatus);
+
+                  if (checkForUnwanted === -1 && checkForConfirmed !== -1) {
+                    ssrResults.push(placeNameResults);
+                  }
                 }
               }
             }
-          }
-        });
-        this.placenames = ssrResults;
+          });
+          this.placenames = ssrResults;
+        }
         // console.log("data: ", ssrResults);
       } catch (error) {
         console.error(error);
@@ -246,21 +265,21 @@ export default {
   width: 100%;
   max-width: var(--width-medium);
 }
-.ssr-search-container{
+.ssr-search-container {
   position: relative;
 }
 
-.placename-list{
+.placename-list {
   position: absolute;
   z-index: 2;
   top: 43px;
   left: 0px;
-  background: rgba($color: #FFF, $alpha: 0.85);
+  background: rgba($color: #fff, $alpha: 0.85);
   padding: 15px 0;
-  border: 1px solid #DFDFDF;
+  border: 1px solid #dfdfdf;
 }
 
-.placename-list li{
+.placename-list li {
   padding: 5px 15px;
   list-style: none;
   font-size: 16px;
@@ -268,7 +287,7 @@ export default {
   cursor: pointer;
 }
 
-.placename-list li:hover{
-  background-color: #dde3e6;  
+.placename-list li:hover {
+  background-color: #dde3e6;
 }
 </style>
