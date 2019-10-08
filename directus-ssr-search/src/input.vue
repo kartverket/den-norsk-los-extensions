@@ -86,7 +86,6 @@ export default {
         "Grotte",
         "Heller",
         "Terrengdetalj",
-        "Elv",
         "Bekk",
         "Grøft",
         "Foss",
@@ -191,7 +190,7 @@ export default {
                 resultLimit = result.sokRes.stedsnavn.length;
               }
 
-              for (var r = 0; r < resultLimit; r++) {
+              for (let r = 0; r < resultLimit; r++) {
                 let placeNameResults = {};
 
                 const placeName = result.sokRes.stedsnavn[r].stedsnavn[0];

@@ -572,7 +572,6 @@ export default {
         "Grotte",
         "Heller",
         "Terrengdetalj",
-        "Elv",
         "Bekk",
         "Grøft",
         "Foss",
@@ -641,7 +640,6 @@ export default {
         "Skiheis",
         "Fjellheis",
         "Slalåm- og utforbakke",
-        "Småbåthavn",
         "Fornøyelsespark",
         "Tømmerrenne",
         "Taubane",
@@ -677,7 +675,7 @@ export default {
                 resultLimit = result.sokRes.stedsnavn.length;
               }
 
-              for (var r = 0; r < resultLimit; r++) {
+              for (let r = 0; r < resultLimit; r++) {
                 let placeNameResults = {};
 
                 const placeName = result.sokRes.stedsnavn[r].stedsnavn[0];
@@ -702,10 +700,11 @@ export default {
                   placeFylke +
                   " - " +
                   nameType +
-                  " - " +
+                  " - ";
+                  placeNameResults.value =
+                  placeLat + ", " + placeLng + 
+                  " - " + 
                   placeNumber;
-                placeNameResults.value =
-                  "(" + placeLat + ", " + placeLng + ")";
 
                 const checkForUnwanted = unwantedPlace.indexOf(nameType);
                 const checkForConfirmed = confirmedPlace.indexOf(nameStatus);
