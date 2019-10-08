@@ -23,6 +23,12 @@
       "tiles": [
         "https://wms.geonorge.no/skwms1/wmstest.adm_enheter2_vt?mode=tile&tilemode=gmap&tile={x}+{y}+{z}&layers=all&map.imagetype=mvt"
       ]
+    },
+    "fjellskygge2": {
+      "type": "raster",
+      "tiles": [
+        "https://openwms.statkart.no/skwms1/wms.norges_grunnkart?service=WMS&request=GetMap&version=1.3.0&BGCOLOR=0xFFFFFF&crs=EPSG:3857&bbox={bbox-epsg-3857}&layers=fjellskygge&transparent=true&width=256&height=256&format=image/png"
+      ]
     }
   },
   "sprite": "https://dnltest.kartverket.no/s52",
@@ -42,6 +48,28 @@
       "maxzoom": 11,
       "paint": {
         "background-color": "#e7f6fd"
+      }
+    },
+    {
+      "id": "hoydelag250",
+      "type": "fill",
+      "minzoom": 8,
+      "maxzoom": 11,
+      "source": "dnl",
+      "source-layer": "N250Hoydelag",
+      "paint": {
+        "fill-color": "#ffefc6"
+      }
+    },
+    {
+      "id": "hoydelag2000",
+      "type": "fill",
+      "minzoom": 0,
+      "maxzoom": 8,
+      "source": "dnl",
+      "source-layer": "N2000Hoydelag",
+      "paint": {
+        "fill-color": "#ffefc6"
       }
     },
     {
