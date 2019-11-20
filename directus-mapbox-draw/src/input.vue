@@ -248,7 +248,7 @@ export default {
   },
   watch: {
     "options.theme"(newVal) {
-      console.log("Theme new value");
+      // console.log("Theme new value");
       // mapboxgl.tileLayer(newVal).addTo(this.map);
     },
 
@@ -279,27 +279,27 @@ export default {
       let parsedGeoObject;
 
       if (this.value) {
-        console.log("init(): We have value, check it.");
+        // console.log("init(): We have value, check it.");
         let pointData = this.value;
 
         if (pointData) {
-          console.log("init(): This? ", this.fields.id.id, " - ", this);
-          console.log("init(): Send value to geometryParser ", this.value);
+          // console.log("init(): This? ", this.fields.id.id, " - ", this);
+          // console.log("init(): Send value to geometryParser ", this.value);
 
           parsedGeoObject = JSON.parse(geometryParser(this.value));
-          console.log("Parsed ok");
+          // console.log("Parsed ok");
           // geoObject = JSON.parse(this.getGeoObject(pointData));
         }
       } else {
       }
 
-      console.log("We have geoobject: ", parsedGeoObject);
+      // console.log("We have geoobject: ", parsedGeoObject);
 
       if (parsedGeoObject) {
-        console.log(
-          "init(): Create map. This is the object we got parsed: ",
-          parsedGeoObject
-        );
+        // console.log(
+        //   "init(): Create map. This is the object we got parsed: ",
+        //   parsedGeoObject
+        // );
         setTimeout(this.createMap, 2500, parsedGeoObject);
         // this.createMap(parsedGeoObject);
       } else {
@@ -319,25 +319,25 @@ export default {
       }
     },
     updateValueSSR(valueSSR) {
-      console.log("valueSSR: ", valueSSR);
+      // console.log("valueSSR: ", valueSSR);
       const stringArray = valueSSR.split(" - ");
       let unformattedLat = stringArray[2].split(", ")[0];
       let unformattedLng = stringArray[2].split(", ")[1];
-      console.log(
-        "unformattedLat",
-        unformattedLat,
-        "unformattedLng",
-        unformattedLng
-      );
+      // console.log(
+      //   "unformattedLat",
+      //   unformattedLat,
+      //   "unformattedLng",
+      //   unformattedLng
+      // );
 
       const ssrLat = parseFloat(unformattedLat);
       const ssrLng = parseFloat(unformattedLng);
 
-      console.log("ssrLat: ", ssrLat, " ssrLng: ", ssrLng);
+      // console.log("ssrLat: ", ssrLat, " ssrLng: ", ssrLng);
 
-      console.log(
-        "TODO: Oppdater punktet også hvis det eksisterer,lukk modal etterpå"
-      );
+      // console.log(
+      //   "TODO: Oppdater punktet også hvis det eksisterer,lukk modal etterpå"
+      // );
       const feature = {
         id: this.storedFeatures[0],
         type: "Feature",
@@ -375,12 +375,12 @@ export default {
     },
     readInput() {
       let query = this.placeName.trim();
-      console.log(query);
+      // console.log(query);
       const degreeCheck = query.indexOf("°");
 
       // Refactor into own function once functionality is decided, need to know what input formats we want to support
       if (degreeCheck !== -1) {
-        console.log("Read input if");
+        // console.log("Read input if");
 
         const latCheckN = query.indexOf("N"),
           latCheckS = query.indexOf("S"),
@@ -396,7 +396,7 @@ export default {
 
           lat = locationArray[0];
           if (lat === "") {
-            console.log("N is in front of latitude", locationArray);
+            // console.log("N is in front of latitude", locationArray);
             lat = locationArray[1];
             lat = lat.replace(/\s/g, "");
           } else {
@@ -408,7 +408,7 @@ export default {
           lat = lat.replace(/\s/g, "");
         }
 
-        console.log(lat, latCheckN);
+        // console.log(lat, latCheckN);
 
         const latDegree = lat.split("°");
 
@@ -513,7 +513,7 @@ export default {
             // this.geoObject.features[0].geometry.coordinates = [lngFraction, latFraction];
 
             // map.getSource('point').setData(geojson);
-            console.log(this.draw.getAll());
+            // console.log(this.draw.getAll());
 
             const feature = {
               id: this.storedFeatures[0],
@@ -535,7 +535,7 @@ export default {
           }
         }
       } else {
-        console.log("Read input else");
+        // console.log("Read input else");
         if (query.length > 2) {
           this.getNames();
         }
@@ -744,7 +744,7 @@ export default {
 
     createMap(geometry) {
       const that = this;
-      console.log("createMap: ", geometry);
+      // console.log("createMap: ", geometry);
 
       let mapCenter;
 
@@ -795,7 +795,7 @@ export default {
         // ]);
 
         const newBounds = bboxFromArray(routeBounds);
-        console.log("setbounds! ", newBounds);
+        // console.log("setbounds! ", newBounds);
 
         this.map.fitBounds(newBounds, {
           padding: { top: 5, bottom: 5, left: 50, right: 50 }
@@ -824,17 +824,17 @@ export default {
 
       this.storedFeatures = this.draw.add(geometry);
 
-      console.log("Stored features: ", this.storedFeatures);
+      // console.log("Stored features: ", this.storedFeatures);
 
       // If someone draws an object, store it in the geo object
       this.map.on("draw.create", function(e) {
         // Drawn object
-        console.log("Drawn object:", e);
+        // console.log("Drawn object:", e);
 
         let storedValue = JSON.stringify(that.value);
 
         // Stored object
-        console.log(that.storedFeatures, storedValue);
+        // console.log(that.storedFeatures, storedValue);
 
         if (storedValue) {
           storedValue = storedValue.replace(/ /g, "");
@@ -845,12 +845,12 @@ export default {
           let contentArray = strippedContent.split(',{"id":');
 
           let stringObject = JSON.stringify(e["features"][0]);
-          console.log(
-            "contentArray: ",
-            contentArray,
-            " stringObject: ",
-            stringObject
-          );
+          // console.log(
+          //   "contentArray: ",
+          //   contentArray,
+          //   " stringObject: ",
+          //   stringObject
+          // );
 
           contentArray.push(stringObject);
 
@@ -889,7 +889,7 @@ export default {
 
       // If someone deleted an object
       this.map.on("draw.delete", function(e) {
-        console.log("draw delete: ", geometry, e);
+        // console.log("draw delete: ", geometry, e);
         let geoJ = geometry;
 
         if (e.features.length < 2) {
@@ -898,10 +898,10 @@ export default {
           for (let i = 0; i < e.features.length; i++) {
             let thisItem = e.features[i];
 
-            console.log("thisItem[i].id: ", thisItem[i].id);
+            // console.log("thisItem[i].id: ", thisItem[i].id);
 
             for (let j = 0; j < geoJ["features"].length; j++) {
-              console.log("Delete for loop");
+              // console.log("Delete for loop");
               // console.log(geoJ["features"][j]["geometry"]["coordinates"][0][0]);
               // console.log(thisItem.geometry.coordinates[0][0]);
               if (geoJ["features"][j]["id"] == thisItem.id) {
@@ -917,7 +917,7 @@ export default {
 
       // If someone moves a feature we want to update stored data
       this.map.on("draw.update", function(e) {
-        console.log("draw update: ", geometry, e);
+        // console.log("draw update: ", geometry, e);
         // let geoJ = geometry;
         let geoJ = that.value;
 
@@ -929,16 +929,16 @@ export default {
             const thisItem = e.features[i];
             const featureType = e.features[i].geometry.type;
 
-            console.log("thisItem,featureType: ", thisItem, featureType);
+            // console.log("thisItem,featureType: ", thisItem, featureType);
 
             const geometryAsString = JSON.stringify(geoJ);
             let checkItemLat = thisItem.geometry.coordinates[0];
 
-            console.log(
-              "geometryAsString,checkItemLat: ",
-              geometryAsString,
-              checkItemLat
-            );
+            // console.log(
+            //   "geometryAsString,checkItemLat: ",
+            //   geometryAsString,
+            //   checkItemLat
+            // );
 
             let objectExists = false;
 
@@ -957,7 +957,7 @@ export default {
             if (objectExists) {
               // Check if this is primary property
               if (thisItem["properties"]["primary"] == true) {
-                console.log("Primary");
+                // console.log("Primary");
                 if (featureType === "Point") {
                   let shortLng = parseFloat(
                     e.features[i].geometry.coordinates[0],
@@ -980,7 +980,7 @@ export default {
                   }
                 }
               } else {
-                console.log("Not primary");
+                // console.log("Not primary");
                 if (featureType === "Point") {
                   let shortLng = parseFloat(
                     e.features[i].geometry.coordinates[0],
@@ -1033,14 +1033,14 @@ export default {
                 }
 
                 if (featureType === "LineString") {
-                  console.log("Line string");
+                  // console.log("Line string");
                   for (let j = 0; j < geoJ["features"].length; j++) {
-                    console.log(
-                      'geoJ["features"][j]["id"] ',
-                      geoJ["features"][j]["id"],
-                      " thisItem.id",
-                      thisItem.id
-                    );
+                    // console.log(
+                    //   'geoJ["features"][j]["id"] ',
+                    //   geoJ["features"][j]["id"],
+                    //   " thisItem.id",
+                    //   thisItem.id
+                    // );
 
                     if (geoJ["features"][j]["id"] == thisItem.id) {
                       // Loop through coordinate array containing points of the polygon
@@ -1092,7 +1092,7 @@ export default {
                   "," +
                   shortLat +
                   '],"type": "Point"}}],"type": "FeatureCollection"}';
-                console.log("Features not stored, store them! ", geoObject);
+                // console.log("Features not stored, store them! ", geoObject);
                 that.setValue(geoObject);
                 // $('.location-stored').val(geoObject);
                 // that.model.set(that.name, geoObject);
@@ -1107,7 +1107,7 @@ export default {
      * Consider if this should always return data in the Geometry format if the database uses that
      */
     setValue(geometryObject) {
-      console.log("set value: ", geometryObject);
+      // console.log("set value: ", geometryObject);
       this.geometryObject = geometryObject;
       this.$emit(
         "input",
