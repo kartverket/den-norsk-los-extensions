@@ -376,10 +376,40 @@ export default {
     readInput() {
       let query = this.placeName.trim();
       // console.log(query);
+      const commaCheck = query.indexOf(",");
       const degreeCheck = query.indexOf("°");
 
       // Refactor into own function once functionality is decided, need to know what input formats we want to support
-      if (degreeCheck !== -1) {
+      if(commaCheck !== -1){
+        const periodCheck = query.indexOf(".");
+        // console.log('periodCheck: ',periodCheck);
+
+        if(periodCheck === 2){
+          const latString = query.split(",")[0];
+          const lngString = query.split(",")[1];
+
+          // console.log(latString,' - ',lngString);
+
+          const feature = {
+              id: this.storedFeatures[0],
+              type: "Feature",
+              properties: {},
+              geometry: {
+                type: "Point",
+                coordinates: [parseFloat(lngString), parseFloat(latString)]
+              }
+            };
+
+            this.draw.add(feature);
+
+            this.map.flyTo({
+              center: [parseFloat(lngString), parseFloat(latString)]
+            });
+
+            this.updateValue(this.draw.getAll());
+        }
+
+      } else if (degreeCheck !== -1) {
         // console.log("Read input if");
 
         const latCheckN = query.indexOf("N"),
@@ -535,7 +565,7 @@ export default {
           }
         }
       } else {
-        // console.log("Read input else");
+        console.log("Read input else");
         if (query.length > 2) {
           this.getNames();
         }

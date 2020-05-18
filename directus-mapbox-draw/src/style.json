@@ -4,30 +4,15 @@
   "sources": {
     "s57": {
       "type": "vector",
-      "maxzoom": 14,
-      "tiles": [
-        "https://s3-eu-west-1.amazonaws.com/maplytic-blob-public/85d855bc-7151-4d92-9afe-feb1b5c9059f/tile/_dnlvt/{z}/{x}/{y}.mvt"
-      ]
+      "url": "https://primar.ecc.no/primar/vectortile_ip/halsett/cells.json"
     },
+
     "dnl": {
       "type": "vector",
-      "maxzoom": 14,
       "tiles": ["https://cache.kartverket.no/dnl/{z}/{x}/{y}.mvt"]
-    },
-    "nrl": {
-      "type": "vector",
-      "tiles": [
-        "https://wms.geonorge.no/skwms1/wms.nrl?mode=tile&tilemode=gmap&tile={x}+{y}+{z}&layers=all&map.imagetype=mvt"
-      ]
-    },
-    "fjellskygge2": {
-      "type": "raster",
-      "tiles": [
-        "https://openwms.statkart.no/skwms1/wms.norges_grunnkart?service=WMS&request=GetMap&version=1.3.0&BGCOLOR=0xFFFFFF&crs=EPSG:3857&bbox={bbox-epsg-3857}&layers=fjellskygge&transparent=true&width=256&height=256&format=image/png"
-      ]
     }
   },
-  "sprite": "https://dnltest.kartverket.no/s52",
+  "sprite": "http://localhost:3000/s52",
   "glyphs": "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
   "layers": [
     {
@@ -125,13 +110,6 @@
       }
     },
     {
-      "id": "fjellskygge2000",
-      "type": "raster",
-      "maxzoom": 11,
-      "source": "fjellskygge2",
-      "raster-opacity": 0.8
-    },
-    {
       "id": "Hav2000",
       "type": "fill",
       "source": "dnl",
@@ -167,10 +145,7 @@
         "line-color": "#e7f6fd",
         "line-width": {
           "base": 1,
-          "stops": [
-            [8, 2],
-            [12, 4]
-          ]
+          "stops": [[8, 2], [12, 4]]
         },
         "line-blur": 1.5
       }
@@ -187,10 +162,7 @@
         "line-color": "#e7f6fd",
         "line-width": {
           "base": 1,
-          "stops": [
-            [8, 1.5],
-            [12, 5]
-          ]
+          "stops": [[8, 1.5], [12, 5]]
         },
         "line-blur": 1.5
       }
@@ -291,10 +263,7 @@
         "line-color": "#C9C9C9",
         "line-width": {
           "base": 1.55,
-          "stops": [
-            [4, 0.5],
-            [14, 2]
-          ]
+          "stops": [[4, 0.5], [14, 2]]
         }
       }
     },
@@ -317,10 +286,7 @@
         "line-color": "#C9C9C9",
         "line-width": {
           "base": 4,
-          "stops": [
-            [4, 1],
-            [14, 7]
-          ]
+          "stops": [[4, 1], [14, 7]]
         }
       }
     },
@@ -343,10 +309,7 @@
         "line-color": "#B0B0B0",
         "line-width": {
           "base": 1.5,
-          "stops": [
-            [4, 1],
-            [14, 3]
-          ]
+          "stops": [[4, 1], [14, 3]]
         }
       }
     },
@@ -368,10 +331,7 @@
         "line-color": "#8F8F8F",
         "line-width": {
           "base": 1.2,
-          "stops": [
-            [4, 4],
-            [14, 12]
-          ]
+          "stops": [[4, 4], [14, 12]]
         },
         "line-blur": 2
       }
@@ -394,10 +354,7 @@
         "line-color": "#8F8F8F",
         "line-width": {
           "base": 1.2,
-          "stops": [
-            [4, 2],
-            [14, 12]
-          ]
+          "stops": [[4, 2], [14, 12]]
         },
         "line-blur": 2
       }
@@ -422,10 +379,7 @@
         "line-color": "#8F8F8F",
         "line-width": {
           "base": 1.55,
-          "stops": [
-            [4, 2],
-            [14, 12]
-          ]
+          "stops": [[4, 2], [14, 12]]
         }
       }
     },
@@ -449,10 +403,7 @@
         "line-color": "#8F8F8F",
         "line-width": {
           "base": 1.55,
-          "stops": [
-            [4, 1],
-            [14, 12]
-          ]
+          "stops": [[4, 1], [14, 12]]
         }
       }
     },
@@ -578,39 +529,6 @@
       "source-layer": "N50Bygningsflate",
       "paint": {
         "fill-color": "#A8A8A8"
-      }
-    },
-    {
-      "id": "N50Vannflate",
-      "type": "fill",
-      "minzoom": 11,
-      "source": "dnl",
-      "source-layer": "N50Vannflate",
-      "filter": ["!=", "objtype", "Havflate"],
-      "paint": {
-        "fill-color": "#e7f6fd"
-      }
-    },
-    {
-      "id": "N50Elver",
-      "type": "line",
-      "minzoom": 11,
-      "source": "dnl",
-      "source-layer": "N50Elver",
-      "paint": {
-        "line-width": 1,
-        "line-color": "#e7f6fd"
-      }
-    },
-    {
-      "id": "N50Flomlop",
-      "type": "line",
-      "minzoom": 11,
-      "source": "dnl",
-      "source-layer": "N50Flomlop",
-      "paint": {
-        "line-width": 1,
-        "line-color": "#e7f6fd"
       }
     },
     {
@@ -782,6 +700,39 @@
       }
     },
     {
+      "id": "N50Vannflate",
+      "type": "fill",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "N50Vannflate",
+      "filter": ["in", "objtype", "ElvBekk", "Innsjø"],
+      "paint": {
+        "fill-color": "#e7f6fd"
+      }
+    },
+    {
+      "id": "N50Elver",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "N50Elver",
+      "paint": {
+        "line-width": 1,
+        "line-color": "#e7f6fd"
+      }
+    },
+    {
+      "id": "N50Flomlop",
+      "type": "line",
+      "minzoom": 11,
+      "source": "dnl",
+      "source-layer": "N50Flomlop",
+      "paint": {
+        "line-width": 1,
+        "line-color": "#e7f6fd"
+      }
+    },
+    {
       "id": "N50Hoydekurver",
       "type": "line",
       "minzoom": 11,
@@ -912,7 +863,7 @@
     },
     {
       "id": "Tårn",
-      "type": "symbol",
+      "type": "circle",
       "minzoom": 11,
       "source": "dnl",
       "source-layer": "N50Anleggspunkt",
@@ -920,9 +871,9 @@
       "layout": {
         "visibility": "visible"
       },
-      "layout": {
-        "icon-image": "TOWERS03",
-        "icon-allow-overlap": true
+      "paint": {
+        "circle-radius": 3,
+        "circle-color": "rgba(255,1,1,1)"
       }
     },
     {
@@ -953,18 +904,6 @@
       "paint": {
         "circle-radius": 8,
         "circle-color": "rgba(154,95,33,1)"
-      }
-    },
-    {
-      "id": "N50Bru",
-      "type": "line",
-      "source": "dnl",
-      "source-layer": "N50Bilveg",
-      "minzoom": 13,
-      "filter": ["==", "medium", "L"],
-      "paint": {
-        "line-color": "#111111",
-        "line-width": 4
       }
     },
     {
@@ -1008,18 +947,22 @@
       }
     },
     {
-      "id": "Dybdepunkt-label",
+      "id": "Dybdepunkt-label<20",
       "type": "symbol",
       "minzoom": 12,
       "source": "dnl",
       "source-layer": "Dybdepunkt",
+      "filter": ["<", ["to-number", ["get", "dybdeverdi"]], 20],
       "icon-padding": 20,
       "layout": {
         "visibility": "visible",
         "text-padding": 10,
         "text-font": ["Open Sans Regular"],
         "text-size": 9,
-        "text-field": ["get", "dybdeverdi"]
+        "text-field": [
+          "to-string",
+          ["/", ["round", ["*", ["to-number", ["get", "dybdeverdi"]], 10]], 10]
+        ]
       },
       "paint": {
         "text-color": "rgba(1,1,1,1)",
@@ -1028,17 +971,120 @@
       }
     },
     {
-      "id": "Dybdekontur-label",
+      "id": "Dybdepunkt-label>20",
+      "type": "symbol",
+      "minzoom": 12,
+      "source": "dnl",
+      "source-layer": "Dybdepunkt",
+      "filter": [">", ["to-number", ["get", "dybdeverdi"]], 20],
+      "icon-padding": 20,
+      "layout": {
+        "visibility": "visible",
+        "text-padding": 10,
+        "text-font": ["Open Sans Regular"],
+        "text-size": 9,
+        "text-field": [
+          "to-string",
+          ["/", ["round", ["*", ["to-number", ["get", "dybdeverdi"]], 1]], 1]
+        ]
+      },
+      "paint": {
+        "text-color": "rgba(1,1,1,1)",
+        "text-halo-width": 1.5,
+        "text-halo-color": "rgba(254,254,254,1)"
+      }
+    },
+    {
+      "id": "grunne-label<20",
+      "type": "symbol",
+      "source": "dnl",
+      "source-layer": "grunne",
+      "filter": ["<", ["to-number", ["get", "dybdeverdi"]], 20],
+      "minzoom": 10,
+      "layout": {
+        "visibility": "visible",
+        "text-font": ["Open Sans Bold"],
+        "text-size": 10,
+        "text-field": [
+          "to-string",
+          ["/", ["round", ["*", ["to-number", ["get", "dybdeverdi"]], 10]], 10]
+        ]
+      },
+      "paint": {
+        "text-color": "rgba(5,5,5,1)",
+        "text-halo-width": 1.5,
+        "text-halo-color": "rgba(254,254,254,1)"
+      }
+    },
+    {
+      "id": "grunne-label>20",
+      "type": "symbol",
+      "source": "dnl",
+      "source-layer": "grunne",
+      "filter": [">", ["to-number", ["get", "dybdeverdi"]], 20],
+      "minzoom": 10,
+      "layout": {
+        "visibility": "visible",
+        "text-font": ["Open Sans Bold"],
+        "text-size": 10,
+        "text-field": [
+          "to-string",
+          ["/", ["round", ["*", ["to-number", ["get", "dybdeverdi"]], 1]], 1]
+        ]
+      },
+      "paint": {
+        "text-color": "rgba(5,5,5,1)",
+        "text-halo-width": 1.5,
+        "text-halo-color": "rgba(254,254,254,1)"
+      }
+    },
+    {
+      "id": "Dybdekontur-label<20",
       "type": "symbol",
       "source": "dnl",
       "source-layer": "Dybdekontur",
+      "filter": ["<", "dybdeverdi_kontur", "20"],
       "minzoom": 14,
       "layout": {
         "visibility": "visible",
         "symbol-placement": "line",
         "text-font": ["Open Sans Regular"],
         "text-size": 8,
-        "text-field": ["get", "dybdeverdi_kontur"]
+        "text-field": [
+          "to-string",
+          [
+            "/",
+            ["round", ["*", ["to-number", ["get", "dybdeverdi_kontur"]], 10]],
+            10
+          ]
+        ]
+      },
+      "paint": {
+        "text-color": "#000000",
+        "text-halo-width": 1.5,
+        "text-halo-color": "rgba(255,255,255,0.7)"
+      }
+    },
+    {
+      "id": "Dybdekontur-label>20",
+      "type": "symbol",
+      "source": "dnl",
+      "source-layer": "Dybdekontur",
+      "filter": [">", "dybdeverdi_kontur", "20"],
+      "minzoom": 14,
+      "layout": {
+        "visibility": "visible",
+        "symbol-placement": "line",
+        "text-font": ["Open Sans Regular"],
+        "text-size": 8,
+        "text-field": [
+          "to-string",
+          [
+            "/",
+            ["round", ["*", ["to-number", ["get", "dybdeverdi_kontur"]], 1]],
+            1
+          ]
+        ]
       },
       "paint": {
         "text-color": "#000000",
@@ -1058,166 +1104,48 @@
       }
     },
     {
-      "id": "BRIDGE_label",
-      "type": "symbol",
-      "source": "s57",
-      "source-layer": "BRIDGE",
-      "layout": {
-        "visibility": "visible",
-        "text-font": ["Open Sans Regular"],
-        "text-size": 16,
-        "text-field": "{VERCLR}",
-        "text-anchor": "bottom"
-      },
-      "paint": {
-        "text-color": "#ec008c"
-      }
-    },
-    {
-      "id": "Luftspenn",
+      "id": "PIPSOL",
       "type": "line",
       "source": "s57",
-      "source-layer": "CBLOHD",
-      "filter": ["==", "CATCBL", 1],
+      "source-layer": "PIPSOL",
+      "filter": ["==", "$type", "LineString"],
       "paint": {
-        "line-color": "#000000",
-        "line-opacity": 0.7,
-        "line-dasharray": [4, 3],
-        "line-width": 1
+        "line-color": "#ff0000",
+        "line-dasharray": [6, 6],
+        "line-width": {
+          "stops": [[12, 0.8], [17, 2]]
+        },
+        "line-opacity": 0.6
       }
     },
     {
-      "id": "Luftspenn_label",
-      "type": "symbol",
-      "source": "s57",
-      "source-layer": "CBLOHD",
-      "layout": {
-        "visibility": "visible",
-        "text-font": ["Open Sans Regular"],
-        "text-size": 16,
-        "text-field": "{VERCSA}",
-        "text-anchor": "bottom"
-      },
-      "paint": {
-        "text-color": "#ec008c"
-      }
-    },
-    {
-      "id": "Cable_submarine",
+      "id": "CBLSUB",
       "type": "line",
       "source": "s57",
       "source-layer": "CBLSUB",
-      "filter": ["!in", "CATCBL", 2, 6],
+      "filter": ["==", "$type", "LineString"],
       "paint": {
-        "line-color": "#ec008c",
-        "line-dasharray": [2, 2, 1, 2],
-        "line-width": 2
+        "line-color": "#ff0000",
+        "line-dasharray": [6, 6],
+        "line-width": {
+          "stops": [[12, 0.8], [17, 2]]
+        },
+        "line-opacity": 0.6
       }
     },
     {
-      "id": "Cable_6",
-      "type": "line",
-      "source": "s57",
-      "source-layer": "CBLSUB",
-      "filter": ["==", "CATCBL", 6],
-      "paint": {
-        "line-color": "#ec008c",
-        "line-dasharray": [2, 2],
-        "line-width": 1
-      }
-    },
-    {
-      "id": "Grenser_fiskeri",
-      "type": "line",
-      "source": "s57",
-      "source-layer": "FSHZNE",
-      "paint": {
-        "line-color": "#ec008c",
-        "line-dasharray": [4, 4],
-        "line-width": 1
-      }
-    },
-    {
-      "id": "recommended_track",
-      "type": "line",
-      "source": "s57",
-      "source-layer": "RECTRC",
-      "paint": {
-        "line-color": "#808080",
-        "line-dasharray": [4, 4],
-        "line-width": 1
-      }
-    },
-    {
-      "id": "Grenser_territorial",
-      "type": "line",
-      "source": "s57",
-      "source-layer": "STSLNE",
-      "filter": ["!=", "NATION", "NO"],
-      "paint": {
-        "line-color": "#ec008c",
-        "line-dasharray": [4, 4],
-        "line-width": 1
-      }
-    },
-    {
-      "id": "Grenser_Caution",
-      "type": "line",
-      "source": "s57",
-      "source-layer": "CTNARE",
-      "paint": {
-        "line-color": "#ec008c",
-        "line-dasharray": [4, 4],
-        "line-width": 1
-      }
-    },
-    {
-      "id": "Restricted",
-      "type": "line",
-      "source": "s57",
-      "source-layer": "RESARE",
-      "paint": {
-        "line-color": "#ec008c",
-        "line-dasharray": [8, 7],
-        "line-width": 1
-      }
-    },
-    {
-      "id": "Ferry",
+      "id": "FERYRT",
       "type": "line",
       "source": "s57",
       "source-layer": "FERYRT",
-      "paint": {
-        "line-color": "#ec008c",
-        "line-dasharray": [3, 1],
-        "line-width": 1
-      }
-    },
-    {
-      "id": "Rørledning",
-      "type": "line",
-      "source": "s57",
-      "source-layer": "PIPSOL",
-      "layout": {
-        "line-cap": "round"
-      },
       "filter": ["==", "$type", "LineString"],
       "paint": {
-        "line-color": "#ec008c",
-        "line-dasharray": [1, 6],
-        "line-width": 3
-      }
-    },
-    {
-      "id": "Rørledning_2",
-      "type": "line",
-      "source": "s57",
-      "source-layer": "PIPSOL",
-      "filter": ["==", "$type", "LineString"],
-      "paint": {
-        "line-color": "#ec008c",
-        "line-dasharray": [6, 3],
-        "line-width": 1
+        "line-color": "#ff0000",
+        "line-dasharray": [6, 6],
+        "line-width": {
+          "stops": [[12, 0.8], [17, 2]]
+        },
+        "line-opacity": 0.6
       }
     },
     {
@@ -1316,26 +1244,35 @@
         "icon-rotate": 135
       }
     },
+
     {
-      "id": "Luftledning",
+      "id": "fylker_2000",
       "type": "line",
-      "minzoom": 11,
       "source": "dnl",
-      "source-layer": "linjehindre",
+      "minzoom": 6,
+      "maxzoom": 10,
+      "source-layer": "N2000AdministrativeGrenser",
+      "filter": ["==", "objtype", "Fylkesgrense"],
       "paint": {
-        "line-width": 0.8,
-        "line-color": "#ec008c"
+        "line-width": 2,
+        "line-color": "rgba(70,70,70,1)",
+        "line-dasharray": [3, 4],
+        "line-blur": 1
       }
     },
+
     {
-      "id": "kommuner",
+      "id": "fylker_250",
       "type": "line",
+      "minzoom": 10,
       "source": "dnl",
-      "source-layer": "kommuner_gjel",
+      "source-layer": "N250AdministrativeGrenser",
+      "filter": ["==", "objtype", "Fylkesgrense"],
       "paint": {
-        "line-width": 1,
-        "line-color": "rgba(150,150,150,1)",
-        "line-dasharray": [5, 5]
+        "line-width": 3,
+        "line-color": "rgba(100,100,100,1)",
+        "line-dasharray": [3, 4],
+        "line-blur": 1
       }
     },
     {
@@ -1691,29 +1628,6 @@
           ["literal", 1]
         ],
         "text-halo-color": "rgb(254,254,240)"
-      }
-    },
-    {
-      "id": "grunne-label",
-      "type": "symbol",
-      "source": "dnl",
-      "source-layer": "grunne",
-      "icon-padding": 20,
-      "minzoom": 10,
-      "layout": {
-        "visibility": "visible",
-        "text-padding": 10,
-        "text-font": ["Open Sans Bold"],
-        "text-size": 10,
-        "text-field": ["get", "dybdeverdi"],
-        "text-justify": "auto",
-        "symbol-sort-key": ["to-number", ["get", "dybdeverdi"]],
-        "text-allow-overlap": false
-      },
-      "paint": {
-        "text-color": "rgba(5,5,5,1)",
-        "text-halo-width": 1.5,
-        "text-halo-color": "rgba(254,254,254,1)"
       }
     }
   ]

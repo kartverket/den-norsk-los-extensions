@@ -1,43 +1,39 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js build
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add vue-hot-reload-api
 
 PATH: 
-  C:\Users\kristian.hollund\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\kristian.hollund\bin;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0;C:\windows\System32\OpenSSH;C:\Program Files\nodejs;C:\Program Files (x86)\Yarn\bin;C:\Program Files\Git\cmd;C:\Program Files\PuTTY;C:\Program Files\Intel\WiFi\bin;C:\Program Files\Common Files\Intel\WirelessCommon;C:\Users\kristian.hollund\AppData\Local\Microsoft\WindowsApps;C:\Users\kristian.hollund\AppData\Roaming\npm;C:\Users\kristian.hollund\AppData\Local\Yarn\bin;C:\Users\kristian.hollund\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Intel\WiFi\bin;C:\Program Files\Common Files\Intel\WirelessCommon;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
+  C:\Program Files\nodejs\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;C:\Code\den-norsk-los-extensions\directus-mapbox-draw\node_modules\.bin;C:\Users\bixen\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\bixen\bin;C:\Python27;C:\Python27\Scripts;C:\Program Files (x86)\Intel\iCLS Client;C:\Program Files\Intel\iCLS Client;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\WINDOWS\System32\OpenSSH;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\wamp64\bin\php\php7.3.1;C:\ProgramData\ComposerSetup\bin;C:\Program Files\PuTTY;C:\Program Files\dotnet;C:\Program Files\nodejs;C:\Program Files (x86)\Yarn\bin;C:\Users\bixen\AppData\Local\Microsoft\WindowsApps;C:\Users\bixen\AppData\Roaming\Composer\vendor\bin;C:\flutter\bin;C:\Users\bixen\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\bixen\AppData\Local\Microsoft\WindowsApps;C:\Users\bixen\AppData\Local\GitHubDesktop\bin;C:\Users\bixen\AppData\Roaming\npm;C:\Users\bixen\AppData\Local\Yarn\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
 
 Yarn version: 
-  1.16.0
+  1.22.4
 
 Node version: 
-  10.16.0
+  12.16.1
 
 Platform: 
   win32 x64
 
 Trace: 
-  SyntaxError: C:\projects\directus-mapbox-draw\package.json: Unexpected token / in JSON at position 145
-      at JSON.parse (<anonymous>)
-      at C:\Program Files (x86)\Yarn\lib\cli.js:1625:59
-      at Generator.next (<anonymous>)
-      at step (C:\Program Files (x86)\Yarn\lib\cli.js:304:30)
-      at C:\Program Files (x86)\Yarn\lib\cli.js:315:13
+  Error: EPERM: operation not permitted, unlink 'C:\Code\den-norsk-los-extensions\directus-mapbox-draw\node_modules\deasync\bin\win32-x64-node-12\deasync.node'
 
 npm manifest: 
   {
     "name": "mapbox-draw",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "description": "",
     "main": "",
     "scripts": {
       "build": "directus-extensions build",
-      // "postbuild": "./postbuild.sh",
+      "extension_move": "sh postbuild.sh",
       "dev": "directus-extensions watch"
     },
     "author": "Kristian Hollund <kristian.hollund@olavstoppen.no>",
     "license": "GPL-3.0",
     "dependencies": {
-      "@directus/extension-toolkit": "^0.0.1",
+      "@directus/extension-toolkit": "^0.1.0",
       "@mapbox/mapbox-gl-draw": "^1.1.1",
-      "mapbox-gl": "^0.51.0",
+      "@mapbox/geojsonhint": "^3.0.0",
+      "mapbox-gl": "^0.54.0",
       "proj4": "^2.5.0",
       "xml2js": "^0.4.17"
     },
@@ -47,7 +43,7 @@ npm manifest:
       "babel-preset-env": "^1.7.0",
       "babel-preset-stage-2": "^6.24.1",
       "cssnano": "^4.1.10",
-      "sass": "^1.17.3",
+      "sass": "^1.26.5",
       "vue-template-compiler": "^2.6.10"
     }
   }

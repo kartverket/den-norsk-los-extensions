@@ -22,9 +22,9 @@ cd dist
 # - all content for the directory'./static/'
 # Move all matches to the directory './user/'
 echo '2/4 Move relevant files'
-find . | grep -Ev '^.$|^.\/testing$|^.\/\/.+' | xargs -I{} mv -v {} /c/xampp/htdocs/directus/public/extensions/custom/interfaces/mapbox-gl-draw
+find . | grep -Ev '^.$|^.\/testing$|^.\/\/.+' | xargs -I{} mv -v {} /c/wamp64/www/directus/public/extensions/custom/interfaces/mapbox-gl-draw
 # Browse into './user/' directory
-cd /c/xampp/htdocs/directus/public/extensions/custom/interfaces/mapbox-gl-draw
+cd /c/wamp64/www/directus/public/extensions/custom/interfaces/mapbox-gl-draw
 # Find all files within the folder (not subfolders)
 # Replace string 'static/' with 'user/static/' on all files that match the 'find'
 # ('sed' requires one to create backup files on OSX, so we do that)

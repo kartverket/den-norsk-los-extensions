@@ -11,12 +11,14 @@
   "author": "Kristian Hollund <kristian.hollund@olavstoppen.no>",
   "license": "GPL-3.0",
   "dependencies": {
-    "@directus/extension-toolkit": "^0.1.0",
-    "@mapbox/mapbox-gl-draw": "^1.1.1",
+    "@directus/extension-toolkit": "^0.8.0",
     "@mapbox/geojsonhint": "^3.0.0",
+    "@mapbox/mapbox-gl-draw": "^1.1.2",
     "mapbox-gl": "^0.54.0",
-    "proj4": "^2.5.0",
-    "xml2js": "^0.4.17"
+    "proj4": "^2.6.2",
+    "vue": "^2.6.11",
+    "vue-hot-reload-api": "^2.3.4",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "@vue/component-compiler-utils": "^2.6.0",
@@ -24,7 +26,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-2": "^6.24.1",
     "cssnano": "^4.1.10",
-    "sass": "^1.17.3",
-    "vue-template-compiler": "^2.6.10"
+    "sass": "^1.26.5",
+    "vue-template-compiler": "^2.6.11"
   }
 }
