@@ -321,8 +321,10 @@ export default {
     updateValueSSR(valueSSR) {
       // console.log("valueSSR: ", valueSSR);
       const stringArray = valueSSR.split(" - ");
-      let unformattedLat = stringArray[2].split(", ")[0];
-      let unformattedLng = stringArray[2].split(", ")[1];
+      const index = stringArray.length - 2;
+      const coordinates = stringArray[index].split(",");
+      let unformattedLat = coordinates[0].trim();
+      let unformattedLng = coordinates[1].trim();
       // console.log(
       //   "unformattedLat",
       //   unformattedLat,
