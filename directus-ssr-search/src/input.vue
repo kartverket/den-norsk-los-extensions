@@ -62,10 +62,9 @@ export default {
 
       const isNum = /^\d+$/.test(query);
 
-      let ssrResults = [];
-      let resultLimit = 50;
+      const ssrResults = [];
+      const resultLimit = 50;
 
-      const confirmedPlace = ["Godkjent", "Vedtatt", "Historisk"];
       const unwantedPlace = [
         "Skogområde",
         "Landskapsområde",
@@ -175,6 +174,7 @@ export default {
       try {
         const search = new URLSearchParams();
         search.set('utkoordsys', 4258);
+        search.set('treffPerSide', resultLimit);
         if (isNum) {
           search.set('stedsnummer', query);
         } else {
@@ -191,7 +191,7 @@ export default {
         const data = await response.json();
 
         if (data.metadata.totaltAntallTreff > 0) {
-          const total = data.navn.length;
+          const total = data.navn.length < resultLimit ? data.navn.length : resultLimit;
           for (let i = 0; i < total; i++) {
             const placeNameResults = {};
             placeNameResults.id = i;
@@ -209,9 +209,8 @@ export default {
             placeNameResults.value = `${placeLat}, ${placeLng} - ${placeNumber}`;
 
             const checkForUnwanted = unwantedPlace.indexOf(nameType);
-            const checkForConfirmed = confirmedPlace.indexOf(nameStatus);
 
-            if (checkForUnwanted === -1 && checkForConfirmed !== -1) {
+            if (checkForUnwanted === -1) {
               ssrResults.push(placeNameResults);
             }
           }
