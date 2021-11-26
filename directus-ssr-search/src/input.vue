@@ -173,7 +173,7 @@ export default {
       // console.log("getPlacenames:");
 
       try {
-        const search = urlSearchParams();
+        const search = URLSearchParams();
         search.set('utkoordsys', 4258);
         if (isNum) {
           search.set('stedsnummer', query);
