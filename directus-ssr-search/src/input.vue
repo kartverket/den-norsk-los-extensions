@@ -173,7 +173,7 @@ export default {
       // console.log("getPlacenames:");
 
       try {
-        const search = URLSearchParams();
+        const search = new URLSearchParams();
         search.set('utkoordsys', 4258);
         if (isNum) {
           search.set('stedsnummer', query);
@@ -196,9 +196,9 @@ export default {
             const placeNameResults = {};
             placeNameResults.id = i;
 
-            const placeName = data['sted'][i]['stedsnavn'][0]['skrivemåte'];
-            const placeKommune = data['kommuner'][0]['kommunenavn'];
-            const placeFylke = data['fylker'][0]['fylkesnavn'];
+            const placeName = data['navn'][i]['stedsnavn'][0]['skrivemåte'];
+            const placeKommune = data['navn'][i]['kommuner'][0]['kommunenavn'];
+            const placeFylke = data['navn'][i]['fylker'][0]['fylkesnavn'];
             const placeLat = parseFloat(data['navn'][i]['representasjonspunkt']['nord']).toFixed(4);
             const placeLng = parseFloat(data['navn'][i]['representasjonspunkt']['øst']).toFixed(4);
             const nameType = data['navn'][i]['navneobjekttype'];
