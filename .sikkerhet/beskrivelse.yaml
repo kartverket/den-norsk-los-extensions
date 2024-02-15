@@ -1,2 +1,5 @@
-version: 1.0
-organisasjon: Sjø
+version: 2.0
+organization: Sjø
+product: Den norske los
+repo_types: [PublicClient,Deprecated]
+platforms: [OS_VM]
